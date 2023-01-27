@@ -19,23 +19,21 @@ public class BoomerangAttack : MonoBehaviour
             cursorPos.z = 0;
 
             Vector3 direction = cursorPos - transform.position;
-            float distance = direction.magnitude;
 
-            if (distance > maxDistance)
+            if (direction.magnitude > maxDistance)
             {
                 direction = direction.normalized * maxDistance;
-                distance = maxDistance;
             }
 
-            StartCoroutine(Attack(direction, distance));
+            StartCoroutine(Attack(direction));
         }
     }
 
-    IEnumerator Attack(Vector3 direction, float distance)
+    IEnumerator Attack(Vector3 direction)
     {
         float traveledDistance = 0f;
 
-        while (traveledDistance < distance)
+        while (traveledDistance < direction.magnitude)
         {
             transform.position += direction.normalized * speed * Time.deltaTime;
             traveledDistance += speed * Time.deltaTime;
@@ -45,7 +43,7 @@ public class BoomerangAttack : MonoBehaviour
         direction = -direction;
         traveledDistance = 0f;
 
-        while (traveledDistance < distance)
+        while (traveledDistance < direction.magnitude)
         {
             transform.position += direction.normalized * speed * Time.deltaTime;
             traveledDistance += speed * Time.deltaTime;
