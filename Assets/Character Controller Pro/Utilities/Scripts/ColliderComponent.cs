@@ -76,47 +76,6 @@ namespace Lightbug.Utilities
 
 
             }
-            else if (collider3D != null)
-            {
-                // Box collider ------------------------------------------------------------
-                BoxCollider boxCollider3D = null;
-
-                try
-                {
-                    boxCollider3D = (BoxCollider)collider3D;
-                }
-                catch (System.Exception) { }
-
-                if (boxCollider3D != null)
-                    return gameObject.AddComponent<BoxColliderComponent3D>();
-
-
-                // Circle collider ------------------------------------------------------------
-                SphereCollider sphereCollider3D = null;
-
-                try
-                {
-                    sphereCollider3D = (SphereCollider)collider3D;
-                }
-                catch (System.Exception) { }
-
-                if (sphereCollider3D != null)
-                    return gameObject.AddComponent<SphereColliderComponent3D>();
-
-                // Capsule collider ------------------------------------------------------------
-                CapsuleCollider capsuleCollider3D = null;
-
-                try
-                {
-                    capsuleCollider3D = (CapsuleCollider)collider3D;
-                }
-                catch (System.Exception) { }
-
-                if (capsuleCollider3D != null)
-                    return gameObject.AddComponent<CapsuleColliderComponent3D>();
-            }
-
-
             return null;
 
         }

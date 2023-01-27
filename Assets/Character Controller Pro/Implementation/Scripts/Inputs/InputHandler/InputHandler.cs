@@ -11,7 +11,6 @@ namespace Lightbug.CharacterControllerPro.Implementation
     public enum HumanInputType
     {
         InputManager,
-        UIMobile,
         Custom
     }
 
@@ -30,12 +29,6 @@ namespace Lightbug.CharacterControllerPro.Implementation
                 case HumanInputType.InputManager:
 
                     inputHandler = gameObject.AddComponent<UnityInputHandler>();
-                    inputHandler.hideFlags = HideFlags.HideInInspector;
-
-                    break;
-                case HumanInputType.UIMobile:
-
-                    inputHandler = gameObject.AddComponent<UIInputHandler>();
                     inputHandler.hideFlags = HideFlags.HideInInspector;
 
                     break;

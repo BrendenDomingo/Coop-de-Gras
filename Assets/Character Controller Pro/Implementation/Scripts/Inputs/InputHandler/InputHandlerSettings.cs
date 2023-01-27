@@ -61,19 +61,6 @@ namespace Lightbug.CharacterControllerPro.Implementation
                 case HumanInputType.InputManager:
 
                     break;
-                case HumanInputType.UIMobile:
-
-                    fieldRect.height = 3f * EditorGUIUtility.singleLineHeight;
-                    EditorGUI.HelpBox(
-                        fieldRect,
-                        "This mode will automatically search for buttons and axes from the scene. " +
-                        "Make sure these elements \"action names\" match with the character actions you want to trigger.",
-                        MessageType.Info
-                    );
-
-                    fieldRect.y += fieldRect.height;
-
-                    break;
                 case HumanInputType.Custom:
 
 
@@ -113,10 +100,6 @@ namespace Lightbug.CharacterControllerPro.Implementation
             {
                 case HumanInputType.InputManager:
                     height = EditorGUIUtility.singleLineHeight;
-                    break;
-
-                case HumanInputType.UIMobile:
-                    height = 4f * EditorGUIUtility.singleLineHeight;
                     break;
 
                 default:

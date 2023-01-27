@@ -126,8 +126,6 @@ namespace Lightbug.Utilities
 
             if (rigidbody2D != null)
                 return gameObject.GetOrAddComponent<PhysicsComponent2D>();
-            else if (rigidbody3D != null)
-                return gameObject.GetOrAddComponent<PhysicsComponent3D>();
 
             return null;
         }

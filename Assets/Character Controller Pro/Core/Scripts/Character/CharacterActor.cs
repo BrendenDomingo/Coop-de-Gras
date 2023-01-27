@@ -819,8 +819,6 @@ namespace Lightbug.CharacterControllerPro.Core
 
             if (Is2D)
                 PhysicsComponent = gameObject.AddComponent<PhysicsComponent2D>();
-            else
-                PhysicsComponent = gameObject.AddComponent<PhysicsComponent3D>();
 
 
             RigidbodyComponent.IsKinematic = false;

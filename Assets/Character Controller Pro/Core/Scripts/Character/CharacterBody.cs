@@ -64,11 +64,6 @@ namespace Lightbug.CharacterControllerPro.Core
                 ColliderComponent = gameObject.AddComponent<CapsuleColliderComponent2D>();
                 RigidbodyComponent = gameObject.AddComponent<RigidbodyComponent2D>();
             }
-            else
-            {
-                ColliderComponent = gameObject.AddComponent<CapsuleColliderComponent3D>();
-                RigidbodyComponent = gameObject.AddComponent<RigidbodyComponent3D>();
-            }
 
         }
 
