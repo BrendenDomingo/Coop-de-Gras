@@ -69,7 +69,6 @@ namespace Lightbug.CharacterControllerPro.Demo
         #endregion
 
 
-        protected MaterialController materialController = null;
         protected int notGroundedJumpsLeft = 0;
         protected bool isAllowedToCancelJump = false;
         protected bool wantToRun = false;
@@ -94,8 +93,6 @@ namespace Lightbug.CharacterControllerPro.Demo
             base.Awake();
 
             notGroundedJumpsLeft = verticalMovementParameters.availableNotGroundedJumps;
-
-            materialController = this.GetComponentInBranch<CharacterActor, MaterialController>();
         }
 
         protected virtual void OnValidate()
@@ -149,26 +146,7 @@ namespace Lightbug.CharacterControllerPro.Demo
         public override void CheckExitTransition()
         {
 
-            if (CharacterActions.jetPack.value)
-            {
-                CharacterStateController.EnqueueTransition<JetPack>();
-            }
-            else if (CharacterActions.dash.Started)
-            {
-                CharacterStateController.EnqueueTransition<Dash>();
-            }
-            else if (CharacterActor.Triggers.Count != 0)
-            {
-                CharacterStateController.EnqueueTransition<LadderClimbing>();
-                CharacterStateController.EnqueueTransition<RopeClimbing>();
-            }
-            else if (!CharacterActor.IsGrounded)
-            {
-                if (!CharacterActions.crouch.value)
-                    CharacterStateController.EnqueueTransition<WallSlide>();
-
-                CharacterStateController.EnqueueTransition<LedgeHanging>();
-            }
+            
         }
 
         public override void ExitBehaviour(float dt, CharacterState toState)
@@ -241,22 +219,6 @@ namespace Lightbug.CharacterControllerPro.Demo
 
             }
 
-
-            // Material values
-            if (materialController != null)
-            {
-                if (CharacterActor.IsGrounded)
-                {
-                    currentMotion.acceleration *= materialController.CurrentSurface.accelerationMultiplier * materialController.CurrentVolume.accelerationMultiplier;
-                    currentMotion.deceleration *= materialController.CurrentSurface.decelerationMultiplier * materialController.CurrentVolume.decelerationMultiplier;
-                }
-                else
-                {
-                    currentMotion.acceleration *= materialController.CurrentVolume.accelerationMultiplier;
-                    currentMotion.deceleration *= materialController.CurrentVolume.decelerationMultiplier;
-                }
-            }
-
         }
 
 
@@ -268,8 +230,6 @@ namespace Lightbug.CharacterControllerPro.Demo
         {
             //SetMotionValues();
 
-            float speedMultiplier = materialController != null ?
-            materialController.CurrentSurface.speedMultiplier * materialController.CurrentVolume.speedMultiplier : 1f;
 
 
             bool needToAccelerate = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, currentPlanarSpeedLimit).sqrMagnitude >= CharacterActor.PlanarVelocity.sqrMagnitude;
@@ -284,7 +244,7 @@ namespace Lightbug.CharacterControllerPro.Demo
 
 
                     //needToAccelerate = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, currentPlanarSpeedLimit).sqrMagnitude >= CharacterActor.PlanarVelocity.sqrMagnitude;
-                    targetPlanarVelocity = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, speedMultiplier, currentPlanarSpeedLimit);
+                    targetPlanarVelocity = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, currentPlanarSpeedLimit);
 
                     //GetAccelerationBoost(targetPlanarVelocity)
                     break;
@@ -315,7 +275,7 @@ namespace Lightbug.CharacterControllerPro.Demo
                         currentPlanarSpeedLimit = wantToRun ? planarMovementParameters.boostSpeedLimit : planarMovementParameters.baseSpeedLimit;
                     }
 
-                    targetPlanarVelocity = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, speedMultiplier, currentPlanarSpeedLimit);
+                    targetPlanarVelocity = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, currentPlanarSpeedLimit);
 
                     //needToAccelerate = CharacterStateController.InputMovementReference != Vector3.zero;
 
@@ -326,7 +286,7 @@ namespace Lightbug.CharacterControllerPro.Demo
                     currentPlanarSpeedLimit = planarMovementParameters.baseSpeedLimit;
 
                     //needToAccelerate = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, currentPlanarSpeedLimit).sqrMagnitude >= CharacterActor.PlanarVelocity.sqrMagnitude;
-                    targetPlanarVelocity = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, speedMultiplier, currentPlanarSpeedLimit);
+                    targetPlanarVelocity = CustomUtilities.Multiply(CharacterStateController.InputMovementReference, currentPlanarSpeedLimit);
 
 
                     break;
@@ -369,11 +329,6 @@ namespace Lightbug.CharacterControllerPro.Demo
 
 
             float gravityMultiplier = 1f;
-
-            if (materialController != null)
-                gravityMultiplier = CharacterActor.LocalVelocity.y >= 0 ?
-                    materialController.CurrentVolume.gravityAscendingMultiplier :
-                    materialController.CurrentVolume.gravityDescendingMultiplier;
 
             float gravity = gravityMultiplier * verticalMovementParameters.gravity;
 
@@ -616,15 +571,6 @@ namespace Lightbug.CharacterControllerPro.Demo
             CharacterActor.alwaysNotGrounded = false;
 
             targetLookingDirection = CharacterActor.Forward;
-
-            if (fromState == CharacterStateController.GetState<WallSlide>())
-            {
-                // "availableNotGroundedJumps + 1" because the update code will consume one jump!
-                notGroundedJumpsLeft = verticalMovementParameters.availableNotGroundedJumps + 1;
-
-                // Reduce the amount of air control (acceleration and deceleration) for 0.5 seconds.
-                ReduceAirControl(0.5f);
-            }
 
             currentPlanarSpeedLimit = Mathf.Max(CharacterActor.PlanarVelocity.magnitude, planarMovementParameters.baseSpeedLimit);
 
