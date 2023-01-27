@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     private Rigidbody2D rb;
     private bool canJump = true;
+    public float health;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,16 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             canJump = true;
+        }
+    }
+
+    public void TakeDamage()
+    {
+        health--;
+
+        if (health == 0)
+        {
+            // Game Over
         }
     }
 }

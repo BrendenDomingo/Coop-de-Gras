@@ -50,4 +50,12 @@ public class BoomerangAttack : MonoBehaviour
             yield return null;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<EnemyAI>().TakeDamage();
+        }
+    }
 }
