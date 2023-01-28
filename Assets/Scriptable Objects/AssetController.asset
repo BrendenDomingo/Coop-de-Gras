@@ -19,8 +19,8 @@ MonoBehaviour:
   SliderBackgroundSprite: {fileID: 0}
   SliderFillAreaSprite: {fileID: 0}
   UseSliderSprites: 0
-  HeaderFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  BodyFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  HeaderFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  BodyFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   NormalUIColor: {r: 0, g: 0.7202115, b: 1, a: 1}
   HighlightedUIColor: {r: 0.3443396, g: 0.8167251, b: 1, a: 1}
   PressedUIColor: {r: 0, g: 0.42204952, b: 0.5849056, a: 1}
