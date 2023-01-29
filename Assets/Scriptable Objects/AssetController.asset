@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286aced5f2fd2d846a268e6fb3a9640e, type: 3}
   m_Name: AssetController
   m_EditorClassIdentifier: 
-  MainMenuBackgroundSprite: {fileID: 0}
+  MainMenuBackgroundSprite: {fileID: 21300000, guid: a480f15a45a3f8042abe5b6a27b48e39, type: 3}
   ButtonSprite: {fileID: 0}
   UseButtonSprite: 0
   SliderKnobSprite: {fileID: 21300000, guid: ef9977ed07c438845a52c577f4ffcc3a, type: 3}
   SliderBackgroundSprite: {fileID: 0}
   SliderFillAreaSprite: {fileID: 0}
   UseSliderSprites: 0
-  HeaderFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  BodyFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  NormalUIColor: {r: 0, g: 0.7202115, b: 1, a: 1}
-  HighlightedUIColor: {r: 0.3443396, g: 0.8167251, b: 1, a: 1}
-  PressedUIColor: {r: 0, g: 0.42204952, b: 0.5849056, a: 1}
-  SelectedUIColor: {r: 0, g: 0.5786163, b: 0.8018868, a: 1}
-  DisabledUIColor: {r: 0.28924882, g: 0.43451297, b: 0.49056602, a: 1}
+  HeaderFont: {fileID: 11400000, guid: c3db287f3d1b76c4792c8f99e725aacb, type: 2}
+  BodyFont: {fileID: 11400000, guid: 84cac6015c55183489e3b603ecfe09d4, type: 2}
+  NormalUIColor: {r: 0.6698113, g: 0.6295523, b: 0, a: 1}
+  HighlightedUIColor: {r: 0.7830189, g: 0.7372283, b: 0, a: 1}
+  PressedUIColor: {r: 0.5283019, g: 0.49740705, b: 0, a: 1}
+  SelectedUIColor: {r: 0.7843138, g: 0.7372549, b: 0, a: 1}
+  DisabledUIColor: {r: 0.5294118, g: 0.49803925, b: 0.24705882, a: 1}
   FillUIColor: {r: 0.7445265, g: 0.8798378, b: 0.9339623, a: 1}
   EmptyUIColor: {r: 0.28235295, g: 0.3019608, b: 0.30980393, a: 1}

@@ -14,7 +14,9 @@ public class AssetImporter : MonoBehaviour
         {
             if (gameObject.name.ToLower().Contains("mainmenubackground"))
             {
-                gameObject.GetComponent<Image>().sprite = _assetController.MainMenuBackgroundSprite;
+                var image = gameObject.GetComponent<Image>();
+                image.sprite = _assetController.MainMenuBackgroundSprite;
+                image.enabled = true;
                 continue;
             }
 
