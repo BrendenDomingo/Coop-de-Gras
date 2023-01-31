@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 5
-  health: 5
+  health: 100
 --- !u!212 &229922026
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -421,8 +421,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseTarget: {fileID: 229922027}
   moveSpeed: 1
-  health: 2
-  damageOverTime: 1
+  health: 100
+  attackCooldown: 2
+  damage: 10
 --- !u!1 &361317770
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,6 +606,7 @@ MonoBehaviour:
   speed: 20
   attackRate: 1
   maxDistance: 20
+  damage: 10
 --- !u!212 &605054812
 SpriteRenderer:
   m_ObjectHideFlags: 0

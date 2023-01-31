@@ -6,7 +6,7 @@ public class BoomerangAttack : MonoBehaviour
     [SerializeField] private float speed = 20f;
     [SerializeField] private float attackRate = 1f;
     [SerializeField] private float maxDistance = 20f;
-
+    [SerializeField] private float damage = 10f;
     private float nextAttackTime = 0f;
 
     void Update()
@@ -55,7 +55,7 @@ public class BoomerangAttack : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyAI>().TakeDamage();
+            other.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
         }
     }
 }

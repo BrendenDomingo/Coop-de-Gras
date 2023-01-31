@@ -4,50 +4,56 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform chaseTarget;
-    public float moveSpeed = 5f;
-    private Rigidbody2D rb;
-    public float health;
-    public float damageOverTime = 1f;
-    private float damageTimer;
+    [SerializeField] private Transform chaseTarget;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float health = 100f;
+    [SerializeField] private float attackCooldown = 15f;
+    [SerializeField] private float damage = 10f;
 
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody2D rb;
+    private bool isAttacking;
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        damageTimer = damageOverTime;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
+    {
+        MoveTowardsTarget();
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && !isAttacking)
+        {
+            StartCoroutine(AttackCoroutine(collision.gameObject));
+        }
+    }
+
+    private IEnumerator AttackCoroutine(GameObject player)
+    {
+        isAttacking = true;
+        DealDamageToPlayer(player);
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
+    }
+
+    private void MoveTowardsTarget()
     {
         Vector3 targetDirection = chaseTarget.position - transform.position;
-        
         transform.position = Vector2.MoveTowards(transform.position, chaseTarget.position, moveSpeed * Time.deltaTime);
-
-        if (damageTimer > 0)
-        {
-            damageTimer -= Time.deltaTime;
-        }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    private void DealDamageToPlayer(GameObject player)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (damageTimer <= 0)
-            {
-                collision.gameObject.GetComponent<PlayerController>().TakeDamage();
-                damageTimer = damageOverTime;
-            }
-        }
+        player.GetComponent<PlayerController>().TakeDamage(damage);
     }
 
-    public void TakeDamage()
+    public void TakeDamage(float damage)
     {
-        health--;
-
-        if (health == 0)
+        health -= damage;
+        if (health <= 0)
         {
             Destroy(gameObject);
         }
