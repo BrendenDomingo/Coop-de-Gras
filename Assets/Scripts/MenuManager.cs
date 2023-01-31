@@ -8,9 +8,9 @@ public class MenuManager : MonoBehaviour
     {
         TitlePanel,
         MainPanel,
-        SettingsPanel,
+        OptionsPanel,
         PlayGamePanel,
-        StatisticsPanel,
+        ItemsPanel,
         QuitGamePanel
     }
 
@@ -25,9 +25,9 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] private GameObject _titlePanel;
     [SerializeField] private GameObject _mainPanel;
-    [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private GameObject _playGamePanel;
-    [SerializeField] private GameObject _statisticsPanel;
+    [SerializeField] private GameObject _itemsPanel;
     [SerializeField] private GameObject _quitGamePanel;
     private PanelType _activePanel;
     private InputDirectionSelected _inputDirection;
@@ -72,21 +72,26 @@ public class MenuManager : MonoBehaviour
                 }
                 if (InputLeft())
                 {
-                    OpenSettingsPanel();
+                    OpenOptionsPanel();
                     break;
                 }
                 if (InputRight())
                 {
-                    OpenStatisticsPanel();
+                    OpenItemsPanel();
                     break;
                 }
-                if (InputDown())
+                if (InputUp())
                 {
                     OpenPlayGamePanel();
                     break;
                 }
+                if (InputDown())
+                {
+                    OpenQuitGamePanel();
+                    break;
+                }
                 break;
-            case PanelType.SettingsPanel:
+            case PanelType.OptionsPanel:
                 if (Input.GetButtonDown("Cancel") || InputRight())
                 {
                     OpenMainPanel();
@@ -94,17 +99,17 @@ public class MenuManager : MonoBehaviour
                 }
                 break;
             case PanelType.PlayGamePanel:
-                if (Input.GetButtonDown("Cancel") || InputUp())
+                if (Input.GetButtonDown("Cancel") || InputDown())
                 {
                     OpenMainPanel();
                     break;
                 }
-                if (Input.GetButtonDown("Submit") || InputDown())
+                if (Input.GetButtonDown("Submit") || InputUp())
                 {
                     OpenDevScene();
                 }
                 break;
-            case PanelType.StatisticsPanel:
+            case PanelType.ItemsPanel:
                 if (Input.GetButtonDown("Cancel") || InputLeft())
                 {
                     OpenMainPanel();
@@ -133,15 +138,15 @@ public class MenuManager : MonoBehaviour
         SetPanelVisible();
     }
 
-    public void OpenSettingsPanel()
+    public void OpenOptionsPanel()
     {
-        _activePanel = PanelType.SettingsPanel;
+        _activePanel = PanelType.OptionsPanel;
         SetPanelVisible();
     }
 
-    public void OpenStatisticsPanel()
+    public void OpenItemsPanel()
     {
-        _activePanel = PanelType.StatisticsPanel;
+        _activePanel = PanelType.ItemsPanel;
         SetPanelVisible();
     }
 
@@ -177,9 +182,9 @@ public class MenuManager : MonoBehaviour
         _allowPanelNavigation = false;
         _titlePanel.SetActive(false);
         _mainPanel.SetActive(false);
-        _settingsPanel.SetActive(false);
+        _optionsPanel.SetActive(false);
         _playGamePanel.SetActive(false);
-        _statisticsPanel.SetActive(false);
+        _itemsPanel.SetActive(false);
         _quitGamePanel.SetActive(false);
 
         switch (_activePanel)
@@ -190,14 +195,14 @@ public class MenuManager : MonoBehaviour
             case PanelType.MainPanel:
                 _mainPanel.SetActive(true);
                 break;
-            case PanelType.SettingsPanel:
-                _settingsPanel.SetActive(true);
+            case PanelType.OptionsPanel:
+                _optionsPanel.SetActive(true);
                 break;
             case PanelType.PlayGamePanel:
                 _playGamePanel.SetActive(true);
                 break;
-            case PanelType.StatisticsPanel:
-                _statisticsPanel.SetActive(true);
+            case PanelType.ItemsPanel:
+                _itemsPanel.SetActive(true);
                 break;
             case PanelType.QuitGamePanel:
                 _quitGamePanel.SetActive(true);
