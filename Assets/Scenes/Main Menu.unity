@@ -6446,7 +6446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuManager: {fileID: 341651036}
-  _fadeSpeed: 2
+  _fadeSpeed: 0.5
 --- !u!1 &1648907448
 GameObject:
   m_ObjectHideFlags: 0

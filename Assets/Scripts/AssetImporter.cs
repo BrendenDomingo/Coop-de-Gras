@@ -10,92 +10,110 @@ public class AssetImporter : MonoBehaviour
 
     void Start()
     {
-        foreach (GameObject gameObject in _spriteReferences) 
+        foreach (GameObject gameObject in _spriteReferences)
         {
             if (gameObject.name.ToLower().Contains("mainmenubackground"))
             {
-                var image = gameObject.GetComponent<Image>();
-                image.sprite = _assetController.MainMenuBackgroundSprite;
-                image.enabled = true;
+                HandleBackground(gameObject);
                 continue;
             }
 
-            var sliderComponent = gameObject.GetComponent<Slider>();
+            Slider sliderComponent = gameObject.GetComponent<Slider>();
             if (sliderComponent != null)
             {
-                Transform background;
-                Transform fillArea;
-
-                if (_assetController.UseSliderSprites)
-                {
-                    sliderComponent.image.sprite = _assetController.SliderKnobSprite;
-
-                    background = sliderComponent.transform.Find("Background");
-                    if (background != null)
-                    {
-                        background.GetComponent<Image>().sprite = _assetController.SliderBackgroundSprite;
-                    }
-
-                    fillArea = sliderComponent.transform.Find("Fill Area").transform.Find("Fill");
-                    if (fillArea != null)
-                    {
-                        fillArea.GetComponent<Image>().sprite = _assetController.SliderFillAreaSprite;
-                    }
-                    continue;
-                }
-
-                ColorBlock colors = sliderComponent.colors;
-                colors.normalColor = _assetController.NormalUIColor;
-                colors.highlightedColor = _assetController.HighlightedUIColor;
-                colors.pressedColor = _assetController.PressedUIColor;
-                colors.selectedColor = _assetController.SelectedUIColor;
-                colors.disabledColor = _assetController.DisabledUIColor;
-                sliderComponent.colors = colors;
-
-                fillArea = sliderComponent.transform.Find("Fill Area").transform.Find("Fill");
-                fillArea.GetComponent<Image>().color = _assetController.FillUIColor;
-
-                background = sliderComponent.transform.Find("Background");
-                background.GetComponent<Image>().color = _assetController.EmptyUIColor;
-
+                HandleSlider(sliderComponent);
                 continue;
             }
 
-            var buttonComponent = gameObject.GetComponent<Button>();
+            Button buttonComponent = gameObject.GetComponent<Button>();
             if (buttonComponent != null)
             {
-                if (_assetController.UseButtonSprite)
-                {
-                    buttonComponent.image.sprite = _assetController.SliderKnobSprite;
-                    continue;
-                }
-
-                ColorBlock colors = buttonComponent.colors;
-                colors.normalColor = _assetController.NormalUIColor;
-                colors.highlightedColor = _assetController.HighlightedUIColor;
-                colors.pressedColor = _assetController.PressedUIColor;
-                colors.selectedColor = _assetController.SelectedUIColor;
-                colors.disabledColor = _assetController.DisabledUIColor;
-                buttonComponent.colors = colors;
-
-                Transform text = buttonComponent.transform.Find("Text (TMP)");
-                text.GetComponent<TextMeshProUGUI>().font = _assetController.BodyFont;
-
+                HandleButton(buttonComponent);
                 continue;
             }
 
             TextMeshProUGUI textComponent = gameObject.GetComponent<TextMeshProUGUI>();
             if (textComponent != null)
             {
-                if (gameObject.name.ToLower().Contains("title") || gameObject.name.ToLower().Contains("header"))
-                {
-                   textComponent.font = _assetController.HeaderFont;
-                    continue;
-                }
-
-                textComponent.font = _assetController.BodyFont;
+                HandleTextMeshProUGUI(textComponent);
                 continue;
             }
         }
+    }
+
+    private void HandleBackground(GameObject gameObject)
+    {
+        var image = gameObject.GetComponent<Image>();
+        image.sprite = _assetController.MainMenuBackgroundSprite;
+        image.enabled = true;
+    }
+
+    private void HandleSlider(Slider component)
+    {
+        Transform background;
+        Transform fillArea;
+
+        if (_assetController.UseSliderSprites)
+        {
+            component.image.sprite = _assetController.SliderKnobSprite;
+
+            background = component.transform.Find("Background");
+            if (background != null)
+            {
+                background.GetComponent<Image>().sprite = _assetController.SliderBackgroundSprite;
+            }
+
+            fillArea = component.transform.Find("Fill Area").transform.Find("Fill");
+            if (fillArea != null)
+            {
+                fillArea.GetComponent<Image>().sprite = _assetController.SliderFillAreaSprite;
+            }
+            return;
+        }
+
+        ColorBlock colors = component.colors;
+        colors.normalColor = _assetController.NormalUIColor;
+        colors.highlightedColor = _assetController.HighlightedUIColor;
+        colors.pressedColor = _assetController.PressedUIColor;
+        colors.selectedColor = _assetController.SelectedUIColor;
+        colors.disabledColor = _assetController.DisabledUIColor;
+        component.colors = colors;
+
+        fillArea = component.transform.Find("Fill Area").transform.Find("Fill");
+        fillArea.GetComponent<Image>().color = _assetController.FillUIColor;
+
+        background = component.transform.Find("Background");
+        background.GetComponent<Image>().color = _assetController.EmptyUIColor;
+    }
+    
+    private void HandleButton(Button component)
+    {
+        if (_assetController.UseButtonSprite)
+        {
+            component.image.sprite = _assetController.SliderKnobSprite;
+            return;
+        }
+
+        ColorBlock colors = component.colors;
+        colors.normalColor = _assetController.NormalUIColor;
+        colors.highlightedColor = _assetController.HighlightedUIColor;
+        colors.pressedColor = _assetController.PressedUIColor;
+        colors.selectedColor = _assetController.SelectedUIColor;
+        colors.disabledColor = _assetController.DisabledUIColor;
+        component.colors = colors;
+
+        Transform text = component.transform.Find("Text (TMP)");
+        text.GetComponent<TextMeshProUGUI>().font = _assetController.BodyFont;
+    }
+
+    private void HandleTextMeshProUGUI(TextMeshProUGUI component)
+    {
+        if (gameObject.name.ToLower().Contains("title") || gameObject.name.ToLower().Contains("header"))
+        {
+            component.font = _assetController.HeaderFont;
+            return;
+        }
+
+        component.font = _assetController.BodyFont;
     }
 }
