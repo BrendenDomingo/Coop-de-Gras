@@ -55,7 +55,17 @@ public class BoomerangAttack : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
+            EnemyAI enemyAI = other.gameObject.GetComponent<EnemyAI>();
+            if (enemyAI != null)
+            {
+                enemyAI.TakeDamage(damage);
+            }
+
+            FlyingEnemyAI flyingEnemyAI = other.gameObject.GetComponent<FlyingEnemyAI>();
+            if (flyingEnemyAI != null)
+            {
+                flyingEnemyAI.TakeDamage(damage);
+            }
         }
     }
 }
