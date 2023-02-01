@@ -8,31 +8,45 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     private Rigidbody2D rb;
     private bool canJump = true;
+    [SerializeField] private float health = 100f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
         if (Input.GetButtonDown("Jump") && canJump)
         {
-            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            canJump = false;
+            Jump();
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void Jump()
+    {
+        rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+        canJump = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             canJump = true;
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            // Game Over
         }
     }
 }
