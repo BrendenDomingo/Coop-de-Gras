@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286aced5f2fd2d846a268e6fb3a9640e, type: 3}
+  m_Name: AssetController
+  m_EditorClassIdentifier: 
+  MainMenuBackgroundSprite: {fileID: 21300000, guid: a480f15a45a3f8042abe5b6a27b48e39, type: 3}
+  ButtonSprite: {fileID: 0}
+  UseButtonSprite: 0
+  SliderKnobSprite: {fileID: 21300000, guid: ef9977ed07c438845a52c577f4ffcc3a, type: 3}
+  SliderBackgroundSprite: {fileID: 0}
+  SliderFillAreaSprite: {fileID: 0}
+  UseSliderSprites: 0
+  HeaderFont: {fileID: 11400000, guid: c3db287f3d1b76c4792c8f99e725aacb, type: 2}
+  BodyFont: {fileID: 11400000, guid: 84cac6015c55183489e3b603ecfe09d4, type: 2}
+  NormalUIColor: {r: 0.6698113, g: 0.6295523, b: 0, a: 1}
+  HighlightedUIColor: {r: 0.7830189, g: 0.7372283, b: 0, a: 1}
+  PressedUIColor: {r: 0.5283019, g: 0.49740705, b: 0, a: 1}
+  SelectedUIColor: {r: 0.7843138, g: 0.7372549, b: 0, a: 1}
+  DisabledUIColor: {r: 0.5294118, g: 0.49803925, b: 0.24705882, a: 1}
+  FillUIColor: {r: 0.7445265, g: 0.8798378, b: 0.9339623, a: 1}
+  EmptyUIColor: {r: 0.28235295, g: 0.3019608, b: 0.30980393, a: 1}
