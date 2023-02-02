@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,7 +45,7 @@ public class EnemyAI : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, chaseTarget.position, moveSpeed * Time.deltaTime);
     }
 
-    private void DealDamageToPlayer(GameObject player)
+    public void DealDamageToPlayer(GameObject player)
     {
         player.GetComponent<PlayerController>().TakeDamage(damage);
     }
