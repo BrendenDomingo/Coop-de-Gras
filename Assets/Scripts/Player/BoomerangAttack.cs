@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class BoomerangAttack : MonoBehaviour
@@ -9,11 +9,11 @@ public class BoomerangAttack : MonoBehaviour
     [SerializeField] private float damage = 10f;
     private float nextAttackTime = 0f;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0) && Time.time >= nextAttackTime)
         {
-            nextAttackTime = Time.time + 1f / attackRate;
+            nextAttackTime = (Time.time + 1f) / attackRate;
 
             Vector3 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             cursorPos.z = 0;
@@ -29,7 +29,7 @@ public class BoomerangAttack : MonoBehaviour
         }
     }
 
-    IEnumerator Attack(Vector3 direction)
+    private IEnumerator Attack(Vector3 direction)
     {
         float traveledDistance = 0f;
 
@@ -51,7 +51,7 @@ public class BoomerangAttack : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {

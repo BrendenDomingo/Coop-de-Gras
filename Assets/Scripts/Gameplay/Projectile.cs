@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
@@ -8,13 +8,13 @@ public class Projectile : MonoBehaviour
     private float timer = 0f;
     [SerializeField] private float damage = 10f;
 
-    void Start()
+    private void Start()
     {
         Transform playerTransform = GameObject.FindWithTag("Player").transform;
         direction = (playerTransform.position - transform.position).normalized;
     }
 
-    void Update()
+    private void Update()
     {
         // Move in the set direction
         transform.Translate(direction * speed * Time.deltaTime);
@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void DealDamageToPlayer(GameObject player)
+    public void DealDamageToPlayer(GameObject player)
     {
         player.GetComponent<PlayerController>().TakeDamage(damage);
     }

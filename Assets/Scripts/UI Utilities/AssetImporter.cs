@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,7 +8,7 @@ public class AssetImporter : MonoBehaviour
     [SerializeField] private List<GameObject> _spriteReferences;
     [SerializeField] private AssetController _assetController;
 
-    void Start()
+    private void Start()
     {
         foreach (GameObject gameObject in _spriteReferences)
         {
@@ -43,7 +43,7 @@ public class AssetImporter : MonoBehaviour
 
     private void HandleBackground(GameObject gameObject)
     {
-        var image = gameObject.GetComponent<Image>();
+        Image image = gameObject.GetComponent<Image>();
         image.sprite = _assetController.MainMenuBackgroundSprite;
         image.enabled = true;
     }

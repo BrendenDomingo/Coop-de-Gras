@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -29,11 +29,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _playGamePanel;
     [SerializeField] private GameObject _itemsPanel;
     [SerializeField] private GameObject _quitGamePanel;
-    private PanelType _activePanel;
     private InputDirectionSelected _inputDirection;
     private bool _allowPanelNavigation = true;
 
-    public PanelType ActivePanel { get { return _activePanel; } }
+    public PanelType ActivePanel { get; private set; }
 
     public void OpenDevScene()
     {
@@ -48,15 +47,15 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(scene);
     }
 
-    void Start()
+    private void Start()
     {
         OpenTitlePanel();
         _mainPanel.transform.Find("VersionText").GetComponent<TextMeshProUGUI>().text = Application.version;
     }
 
-    void Update()
+    private void Update()
     {
-        switch (_activePanel)
+        switch (ActivePanel)
         {
             case PanelType.TitlePanel:
                 if (Input.anyKeyDown)
@@ -134,25 +133,25 @@ public class MenuManager : MonoBehaviour
 
     public void OpenPlayGamePanel()
     {
-        _activePanel = PanelType.PlayGamePanel;
+        ActivePanel = PanelType.PlayGamePanel;
         SetPanelVisible();
     }
 
     public void OpenOptionsPanel()
     {
-        _activePanel = PanelType.OptionsPanel;
+        ActivePanel = PanelType.OptionsPanel;
         SetPanelVisible();
     }
 
     public void OpenItemsPanel()
     {
-        _activePanel = PanelType.ItemsPanel;
+        ActivePanel = PanelType.ItemsPanel;
         SetPanelVisible();
     }
 
     public void OpenMainPanel()
     {
-        _activePanel = PanelType.MainPanel;
+        ActivePanel = PanelType.MainPanel;
         SetPanelVisible();
     }
 
@@ -167,13 +166,13 @@ public class MenuManager : MonoBehaviour
 
     public void OpenQuitGamePanel()
     {
-        _activePanel = PanelType.QuitGamePanel;
+        ActivePanel = PanelType.QuitGamePanel;
         SetPanelVisible();
     }
 
     public void OpenTitlePanel()
     {
-        _activePanel = PanelType.TitlePanel;
+        ActivePanel = PanelType.TitlePanel;
         SetPanelVisible();
     }
 
@@ -187,7 +186,7 @@ public class MenuManager : MonoBehaviour
         _itemsPanel.SetActive(false);
         _quitGamePanel.SetActive(false);
 
-        switch (_activePanel)
+        switch (ActivePanel)
         {
             case PanelType.TitlePanel:
                 _titlePanel.SetActive(true);

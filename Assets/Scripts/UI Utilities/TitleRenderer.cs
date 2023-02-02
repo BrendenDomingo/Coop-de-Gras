@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class TitleRenderer : MonoBehaviour
@@ -8,13 +8,13 @@ public class TitleRenderer : MonoBehaviour
     private TextMeshProUGUI _pressToContinueText;
     private Color _color;
 
-    void Start()
+    private void Start()
     {
         _pressToContinueText = transform.Find("PressToContinueText").GetComponent<TextMeshProUGUI>();
         _color = _pressToContinueText.color;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (MenuManager.ActivePanel == MenuManager.PanelType.TitlePanel)
         {
