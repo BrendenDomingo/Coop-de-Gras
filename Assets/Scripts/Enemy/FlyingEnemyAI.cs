@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class FlyingEnemyAI : MonoBehaviour
@@ -10,6 +10,8 @@ public class FlyingEnemyAI : MonoBehaviour
     public float fireRate = 1f;
     private float fireTimer = 0f;
     private Transform playerTransform;
+
+    public GameObject CoinPrefab;
 
     void Start()
     {
@@ -36,7 +38,8 @@ public class FlyingEnemyAI : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Instantiate ( CoinPrefab, transform.position, Quaternion.identity );
+            Destroy (gameObject);
         }
     }
 }

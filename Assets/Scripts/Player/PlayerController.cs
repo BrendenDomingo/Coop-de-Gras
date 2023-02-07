@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,12 +7,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
     private Rigidbody2D rb;
+    private int PickupCount;
     private bool canJump = true;
     [SerializeField] private float health = 100f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        PickupCount = 0;
     }
 
     private void Update()
@@ -48,5 +50,10 @@ public class PlayerController : MonoBehaviour
         {
             // Game Over
         }
+    }
+
+    public void IncreasePickupCount()
+    {
+        PickupCount++;
     }
 }
