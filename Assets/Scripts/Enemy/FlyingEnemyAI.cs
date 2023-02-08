@@ -1,45 +1,43 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class FlyingEnemyAI : MonoBehaviour
+public class FlyingEnemyAI : Enemy2D
 {
-    [SerializeField] private float health = 100f;
-
-    public float speed = 2f;
+    private bool isAttacking;
     public GameObject projectilePrefab;
-    public float fireRate = 1f;
-    private float fireTimer = 0f;
-    private Transform playerTransform;
-
-    public GameObject CoinPrefab;
-
-    void Start()
-    {
-        playerTransform = GameObject.FindWithTag("Player").transform;
-    }
 
     void Update()
     {
-        // Move towards the player on the x-axis only
-        Vector2 newPos = Vector2.MoveTowards(transform.position, new Vector2(playerTransform.position.x, transform.position.y), speed * Time.deltaTime);
-        transform.position = new Vector3(newPos.x, transform.position.y, transform.position.z);
-
-        // Fire projectile towards player's position
-        fireTimer += Time.deltaTime;
-        if (fireTimer >= fireRate)
-        {
-            fireTimer = 0f;
-            Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        }
+        MoveTowardsTarget();
     }
 
-    public void TakeDamage(float damage)
+    private void OnCollisionStay2D ( Collision2D collision )
     {
-        health -= damage;
-        if (health <= 0)
+        if (collision.gameObject.CompareTag ( "Player" ) && !isAttacking)
         {
-            Instantiate ( CoinPrefab, transform.position, Quaternion.identity );
-            Destroy (gameObject);
+            StartCoroutine ( AttackCoroutine ( collision.gameObject ) );
         }
     }
+
+    private IEnumerator AttackCoroutine ( GameObject player )
+    {
+        isAttacking = true;
+        FireProjectile ( );
+        yield return new WaitForSeconds ( attackRate );
+        isAttacking = false;
+    }
+
+    private void MoveTowardsTarget()
+    {
+        // Move towards the player on the x-axis only
+        Vector2 newPos = Vector2.MoveTowards (transform.position, new Vector2(playerTransform.position.x, transform.position.y), speed * Time.deltaTime);
+        transform.position = new Vector3 (newPos.x, transform.position.y, transform.position.z);
+    }
+
+    private void FireProjectile()
+    {
+        // Fire projectile towards player's position
+        Instantiate (projectilePrefab, transform.position, Quaternion.identity);
+    }
+
 }
