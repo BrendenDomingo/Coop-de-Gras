@@ -10,6 +10,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float attackCooldown = 15f;
     [SerializeField] private float damage = 10f;
 
+    public GameObject CoinPrefab;
+
     private Rigidbody2D rb;
     private bool isAttacking;
 
@@ -55,7 +57,9 @@ public class EnemyAI : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Instantiate ( CoinPrefab, transform.position, Quaternion.identity );
+            Destroy (gameObject);
+
         }
     }
 }
