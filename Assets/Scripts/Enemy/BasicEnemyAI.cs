@@ -4,37 +4,27 @@ using UnityEngine;
 
 public class BasicEnemyAI : Enemy2D
 {
-    private bool isAttacking;
-
-    private void Update()
+    private void Update ( )
     {
-        MoveTowardsTarget();
+        Move ( );
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionStay2D ( Collision2D collision )
     {
-        if (collision.gameObject.CompareTag("Player") && !isAttacking)
+        if ( collision.gameObject.CompareTag( "Player" ) && !isAttacking )
         {
-            StartCoroutine (AttackCoroutine(collision.gameObject));
+            StartCoroutine ( AttackCoroutine ( ) );
         }
     }
 
-    private IEnumerator AttackCoroutine (GameObject player)
-    {
-        isAttacking = true;
-        DealDamageToPlayer (player);
-        yield return new WaitForSeconds (attackRate);
-        isAttacking = false;
-    }
-
-    private void MoveTowardsTarget()
+    public override void Move ( )
     {
         Vector3 targetDirection = playerTransform.position - transform.position;
-        transform.position = Vector2.MoveTowards (transform.position, playerTransform.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards ( transform.position, playerTransform.position, speed * Time.deltaTime );
     }
 
-    public void DealDamageToPlayer (GameObject player)
+    public override void Attack ( )
     {
-        player.GetComponent<PlayerController>().TakeDamage(damage);
+        player.GetComponent<PlayerController> ( ).TakeDamage( damage );
     }
 }

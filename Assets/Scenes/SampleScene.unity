@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &159796921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 156659917072063510, guid: 5451b64ba03e68646b1aad4a4afb37ae, type: 3}
+  m_PrefabInstance: {fileID: 1683561647}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &389658562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 156659917072063515, guid: 5451b64ba03e68646b1aad4a4afb37ae, type: 3}
@@ -286,13 +291,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7805100505438707948, guid: 1e25de1607c16184db0b00d3903e908d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 159796921}
+    - target: {fileID: 7805100505438707948, guid: 1e25de1607c16184db0b00d3903e908d, type: 3}
       propertyPath: itemDrop
       value: 
       objectReference: {fileID: 8850943940915358578, guid: fc827ea775d3a754586df172c990967d, type: 3}
     - target: {fileID: 7805100505438707948, guid: 1e25de1607c16184db0b00d3903e908d, type: 3}
+      propertyPath: attackRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805100505438707948, guid: 1e25de1607c16184db0b00d3903e908d, type: 3}
       propertyPath: chaseTarget
       value: 
       objectReference: {fileID: 389658562}
+    - target: {fileID: 7805100505438707948, guid: 1e25de1607c16184db0b00d3903e908d, type: 3}
+      propertyPath: isAttacking
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7805100505438707948, guid: 1e25de1607c16184db0b00d3903e908d, type: 3}
       propertyPath: playerTransform
       value: 
@@ -408,9 +425,25 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4992251676871141982, guid: 1d92a14653b57df459ca95eb285a8bce, type: 3}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992251676871141982, guid: 1d92a14653b57df459ca95eb285a8bce, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 159796921}
+    - target: {fileID: 4992251676871141982, guid: 1d92a14653b57df459ca95eb285a8bce, type: 3}
       propertyPath: itemDrop
       value: 
       objectReference: {fileID: 8850943940915358578, guid: fc827ea775d3a754586df172c990967d, type: 3}
+    - target: {fileID: 4992251676871141982, guid: 1d92a14653b57df459ca95eb285a8bce, type: 3}
+      propertyPath: attackRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4992251676871141982, guid: 1d92a14653b57df459ca95eb285a8bce, type: 3}
+      propertyPath: isAttacking
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4992251676871141982, guid: 1d92a14653b57df459ca95eb285a8bce, type: 3}
       propertyPath: playerTransform
       value: 
