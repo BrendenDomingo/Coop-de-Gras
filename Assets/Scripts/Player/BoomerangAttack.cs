@@ -3,11 +3,11 @@ using System.Collections;
 
 public class BoomerangAttack : MonoBehaviour
 {
-    [SerializeField] private float speed = 20f;
-    [SerializeField] private float attackRate = 1f;
-    [SerializeField] private float maxDistance = 20f;
-    [SerializeField] private float damage = 10f;
-    private float nextAttackTime = 0f;
+    public float speed;
+    public float attackRate;
+    public float maxDistance;
+    public float damage;
+    private float nextAttackTime;
 
     private void Update()
     {
@@ -55,16 +55,16 @@ public class BoomerangAttack : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            EnemyAI enemyAI = other.gameObject.GetComponent<EnemyAI>();
+            BasicEnemyAI enemyAI = other.gameObject.GetComponent<BasicEnemyAI>();
             if (enemyAI != null)
             {
-                enemyAI.TakeDamage(damage);
+                enemyAI.ReceiveDamage ( damage);
             }
 
             FlyingEnemyAI flyingEnemyAI = other.gameObject.GetComponent<FlyingEnemyAI>();
             if (flyingEnemyAI != null)
             {
-                flyingEnemyAI.TakeDamage(damage);
+                flyingEnemyAI.ReceiveDamage ( damage);
             }
         }
     }
