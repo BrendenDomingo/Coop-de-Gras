@@ -35,7 +35,7 @@ public class AssetImporter : MonoBehaviour
             TextMeshProUGUI textComponent = gameObject.GetComponent<TextMeshProUGUI>();
             if (textComponent != null)
             {
-                HandleTextMeshProUGUI(textComponent);
+                HandleTextMeshProUGUI(textComponent, gameObject);
                 continue;
             }
         }
@@ -53,7 +53,10 @@ public class AssetImporter : MonoBehaviour
         Transform background;
         Transform fillArea;
 
-        if (_assetController.UseSliderSprites)
+        bool isHPSlider = component.gameObject.name.Contains("HP");
+        bool isPWRSlider = component.gameObject.name.Contains("HP");
+
+        if (_assetController.UseSliderSprites && !isHPSlider && !isPWRSlider)
         {
             component.image.sprite = _assetController.SliderKnobSprite;
 
@@ -80,7 +83,11 @@ public class AssetImporter : MonoBehaviour
         component.colors = colors;
 
         fillArea = component.transform.Find("Fill Area").transform.Find("Fill");
-        fillArea.GetComponent<Image>().color = _assetController.FillUIColor;
+        fillArea.GetComponent<Image>().color = isHPSlider ? 
+            _assetController.HPColor :
+            isPWRSlider ?
+                _assetController.PWRColor :
+                _assetController.FillUIColor;
 
         background = component.transform.Find("Background");
         background.GetComponent<Image>().color = _assetController.EmptyUIColor;
@@ -106,7 +113,7 @@ public class AssetImporter : MonoBehaviour
         text.GetComponent<TextMeshProUGUI>().font = _assetController.BodyFont;
     }
 
-    private void HandleTextMeshProUGUI(TextMeshProUGUI component)
+    private void HandleTextMeshProUGUI(TextMeshProUGUI component, GameObject gameObject)
     {
         if (gameObject.name.ToLower().Contains("title") || gameObject.name.ToLower().Contains("header"))
         {

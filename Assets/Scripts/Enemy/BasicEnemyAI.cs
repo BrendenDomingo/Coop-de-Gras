@@ -6,6 +6,7 @@ public class BasicEnemyAI : Enemy2D
 {
     private void Update ( )
     {
+        if (GameManager.GamePaused) return;
         Move ( );
     }
 
@@ -25,6 +26,8 @@ public class BasicEnemyAI : Enemy2D
 
     public override void Attack ( )
     {
+        if (GameManager.GamePaused) return;
+
         player.GetComponent<PlayerController> ( ).TakeDamage( damage );
     }
 }

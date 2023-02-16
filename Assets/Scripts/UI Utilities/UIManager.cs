@@ -1,17 +1,16 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Collections;
+using UnityEngine.UI;
 
-public class MenuManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     public enum PanelType
     {
-        TitlePanel,
+        HudPanel,
         MainPanel,
         OptionsPanel,
-        PlayGamePanel,
-        ItemsPanel,
+        MainMenuPanel,
         QuitGamePanel
     }
 
@@ -24,23 +23,28 @@ public class MenuManager : MonoBehaviour
         None
     }
 
-    [SerializeField] private GameObject _titlePanel;
+    [SerializeField] private GameObject _hudPanel;
     [SerializeField] private GameObject _mainPanel;
     [SerializeField] private GameObject _optionsPanel;
-    [SerializeField] private GameObject _playGamePanel;
-    [SerializeField] private GameObject _itemsPanel;
+    [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _quitGamePanel;
+    [SerializeField] private PlayerController _playerController;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private Slider _healthSlider;
+    [SerializeField] private Slider _powerSlider;
+    [SerializeField] private TextMeshProUGUI _goldValue;
+    [SerializeField] private TextMeshProUGUI _waveValue;
     private InputDirectionSelected _inputDirection;
     private bool _allowPanelNavigation = true;
-    private float _loadTimeCooldown = 1f;
 
     public PanelType ActivePanel { get; private set; }
 
-    public void OpenDevScene()
+    public void OpenMainMenuScene()
     {
         // this needs to be changed later when we have a proper scene management system
         // there is also no way to return to the title menu once we are in this scene... future work
-        OpenScene(1);
+        PlayerPrefs.SetInt("LoadTitleScreen", 1);
+        OpenScene(0);
     }
 
     private void OpenScene(int scene)
@@ -51,41 +55,28 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        OpenTitlePanel();
-
-        if (PlayerPrefs.HasKey("LoadTitleScreen"))
-        {
-            if (PlayerPrefs.GetInt("LoadTitleScreen") == 1)
-            {
-                OpenMainPanel();
-                PlayerPrefs.SetInt("LoadTitleScreen", 0);
-            }
-        }
-        
+        CloseAllPanels();
         _mainPanel.transform.Find("VersionText").GetComponent<TextMeshProUGUI>().text = Application.version;
-
-        StartCoroutine(WaitOnLoad());
-    }
-
-    IEnumerator WaitOnLoad()
-    {
-        yield return new WaitForSeconds(_loadTimeCooldown);
     }
 
     private void Update()
     {
         switch (ActivePanel)
         {
-            case PanelType.TitlePanel:
-                if (Input.anyKeyDown)
-                { 
-                    OpenMainPanel();
-                }
-                break;
-            case PanelType.MainPanel:
+            case PanelType.HudPanel:
                 if (Input.GetButtonDown("Cancel"))
                 {
-                    OpenQuitGamePanel();
+                    OpenMainPanel();
+                    break;
+                }
+
+                UpdateHUDUIComponents();
+
+                break;
+            case PanelType.MainPanel:
+                if (Input.GetButtonDown("Cancel") || InputUp())
+                {
+                    CloseAllPanels();
                     break;
                 }
                 if (InputLeft())
@@ -95,12 +86,7 @@ public class MenuManager : MonoBehaviour
                 }
                 if (InputRight())
                 {
-                    OpenItemsPanel();
-                    break;
-                }
-                if (InputUp())
-                {
-                    OpenPlayGamePanel();
+                    OpenMainMenuPanel();
                     break;
                 }
                 if (InputDown())
@@ -116,22 +102,15 @@ public class MenuManager : MonoBehaviour
                     break;
                 }
                 break;
-            case PanelType.PlayGamePanel:
-                if (Input.GetButtonDown("Cancel") || InputDown())
-                {
-                    OpenMainPanel();
-                    break;
-                }
-                if (Input.GetButtonDown("Submit") || InputUp())
-                {
-                    OpenDevScene();
-                }
-                break;
-            case PanelType.ItemsPanel:
+            case PanelType.MainMenuPanel:
                 if (Input.GetButtonDown("Cancel") || InputLeft())
                 {
                     OpenMainPanel();
                     break;
+                }
+                if (InputRight())
+                {
+                    OpenMainMenuScene();
                 }
                 break;
             case PanelType.QuitGamePanel:
@@ -148,13 +127,19 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    #region OPEN PANEL FUCNTIONS
+    #region HUD FUNCTIONS
 
-    public void OpenPlayGamePanel()
+    private void UpdateHUDUIComponents()
     {
-        ActivePanel = PanelType.PlayGamePanel;
-        SetPanelVisible();
+        _healthSlider.value = _playerController.Health / _playerController.MaxHealth;
+        _powerSlider.value = _playerController.Power / _playerController.MaxPower;
+        _goldValue.text = _playerController.Gold.ToString();
+        _waveValue.text = _gameManager.CurrentWave.ToString() + " / " + _gameManager.FinalWave.ToString();
     }
+
+    #endregion
+
+    #region OPEN PANEL FUCNTIONS
 
     public void OpenOptionsPanel()
     {
@@ -162,14 +147,9 @@ public class MenuManager : MonoBehaviour
         SetPanelVisible();
     }
 
-    public void OpenItemsPanel()
-    {
-        ActivePanel = PanelType.ItemsPanel;
-        SetPanelVisible();
-    }
-
     public void OpenMainPanel()
     {
+        GameManager.GamePaused = true;
         ActivePanel = PanelType.MainPanel;
         SetPanelVisible();
     }
@@ -183,47 +163,51 @@ public class MenuManager : MonoBehaviour
         #endif
     }
 
+    public void OpenMainMenuPanel()
+    {
+        ActivePanel = PanelType.MainMenuPanel;
+        SetPanelVisible();
+    }
+
     public void OpenQuitGamePanel()
     {
         ActivePanel = PanelType.QuitGamePanel;
         SetPanelVisible();
     }
 
-    public void OpenTitlePanel()
+    public void CloseAllPanels()
     {
-        ActivePanel = PanelType.TitlePanel;
+        GameManager.GamePaused = false;
+        ActivePanel = PanelType.HudPanel;
         SetPanelVisible();
     }
+
 
     private void SetPanelVisible()
     {
         _allowPanelNavigation = false;
-        _titlePanel.SetActive(false);
         _mainPanel.SetActive(false);
         _optionsPanel.SetActive(false);
-        _playGamePanel.SetActive(false);
-        _itemsPanel.SetActive(false);
+        _mainMenuPanel.SetActive(false);
         _quitGamePanel.SetActive(false);
+        _hudPanel.SetActive(false);
 
         switch (ActivePanel)
         {
-            case PanelType.TitlePanel:
-                _titlePanel.SetActive(true);
-                break;
             case PanelType.MainPanel:
                 _mainPanel.SetActive(true);
                 break;
             case PanelType.OptionsPanel:
                 _optionsPanel.SetActive(true);
                 break;
-            case PanelType.PlayGamePanel:
-                _playGamePanel.SetActive(true);
-                break;
-            case PanelType.ItemsPanel:
-                _itemsPanel.SetActive(true);
+            case PanelType.MainMenuPanel:
+                _mainMenuPanel.SetActive(true);
                 break;
             case PanelType.QuitGamePanel:
                 _quitGamePanel.SetActive(true);
+                break;
+            case PanelType.HudPanel:
+                _hudPanel.SetActive(true);
                 break;
         }
     }
