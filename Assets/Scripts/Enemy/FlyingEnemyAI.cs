@@ -7,6 +7,8 @@ public class FlyingEnemyAI : Enemy2D
 
     void Update ( )
     {
+        if (GameManager.GamePaused) return;
+        
         Move ( );
     }
 
@@ -23,6 +25,8 @@ public class FlyingEnemyAI : Enemy2D
 
     public override void Attack ( )
     {
+        if (GameManager.GamePaused) return;
+
         // Fire projectile towards player's position
         Instantiate ( projectilePrefab, transform.position, Quaternion.identity );
     }

@@ -9,7 +9,7 @@ public class Pickup : MonoBehaviour
             PlayerController player = collision.gameObject.GetComponent<PlayerController> ( );
             if (player != null)
             {
-                player.IncreasePickupCount ( );
+                player.PickupGold ( );
             }
             Destroy ( gameObject );
         }
