@@ -20,4 +20,6 @@ public class AssetController : ScriptableObject
     public Color DisabledUIColor;
     public Color FillUIColor;
     public Color EmptyUIColor;
+    public Color HPColor;
+    public Color PWRColor;
 }

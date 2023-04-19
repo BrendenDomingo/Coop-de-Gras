@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.GamePaused) return;
+        
         // Move in the set direction
         transform.Translate(direction * speed * Time.deltaTime);
 
@@ -32,12 +34,8 @@ public class Projectile : MonoBehaviour
         // Destroy the projectile if it collides with the player
         if (other.gameObject.CompareTag("Player"))
         {
+            other.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
             Destroy(gameObject);
         }
-    }
-
-    public void DealDamageToPlayer(GameObject player)
-    {
-        player.GetComponent<PlayerController>().TakeDamage(damage);
     }
 }
