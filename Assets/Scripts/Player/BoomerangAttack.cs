@@ -11,6 +11,8 @@ public class BoomerangAttack : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.GamePaused) return;
+        
         if (Input.GetMouseButtonDown(0) && Time.time >= nextAttackTime)
         {
             nextAttackTime = (Time.time + 1f) / attackRate;
