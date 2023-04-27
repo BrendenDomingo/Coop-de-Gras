@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8503186724223029755}
   - component: {fileID: 748571145687334821}
   - component: {fileID: 6534332838572146368}
-  m_Layer: 14
+  m_Layer: 9
   m_Name: Coin
   m_TagString: Pick up
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!114 &748571145687334821
 MonoBehaviour:
   m_ObjectHideFlags: 0
