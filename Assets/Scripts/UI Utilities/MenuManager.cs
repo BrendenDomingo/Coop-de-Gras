@@ -29,13 +29,11 @@ public class MenuManager : MonoBehaviour
     public void OpenDevScene()
     {
         // this needs to be changed later when we have a proper scene management system
-        // there is also no way to return to the title menu once we are in this scene... future work
         OpenScene(1);
     }
 
     private void OpenScene(int scene)
     {
-        // opens a scene by ID - 0 is the title menu and 1 is dev scene currently
         SceneManager.LoadScene(scene);
     }
 

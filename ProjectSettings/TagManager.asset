@@ -9,6 +9,7 @@ TagManager:
   - Pick up
   - Projectile
   - UI_Navigation
+  - GameManager
   layers:
   - Default
   - TransparentFX

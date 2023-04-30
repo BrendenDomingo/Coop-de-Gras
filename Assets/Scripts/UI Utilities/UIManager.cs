@@ -12,7 +12,8 @@ public class UIManager : MonoBehaviour
         MainPanel,
         OptionsPanel,
         MainMenuPanel,
-        QuitGamePanel
+        QuitGamePanel,
+        DeathPanel
     }
 
     [SerializeField] private GameObject _hudPanel;
@@ -20,13 +21,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _quitGamePanel;
+    [SerializeField] private GameObject _deathPanel;
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _powerSlider;
     [SerializeField] private TextMeshProUGUI _goldValue;
+    [SerializeField] private TextMeshProUGUI _killValue;
     [SerializeField] private TextMeshProUGUI _waveValue;
-    private float _timeElapsed = 0f;
 
     public PanelType ActivePanel { get; private set; }
 
@@ -38,6 +40,11 @@ public class UIManager : MonoBehaviour
         OpenScene(0);
     }
 
+    public void ResetCurrentScene()
+    {
+        OpenScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private void OpenScene(int scene)
     {
         // opens a scene by ID - 0 is the title menu and 1 is dev scene currently
@@ -46,6 +53,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         CloseAllPanels();
         _mainPanel.transform.Find("VersionText").GetComponent<TextMeshProUGUI>().text = Application.version;
     }
@@ -90,6 +99,7 @@ public class UIManager : MonoBehaviour
         _powerSlider.value = _playerController.Power / _playerController.MaxPower;
         _goldValue.text = _playerController.Gold.ToString();
         _waveValue.text = _gameManager.CurrentWave.ToString() + " / " + _gameManager.FinalWave.ToString();
+        _killValue.text = _gameManager.KillCount.ToString();
     }
 
     #endregion
@@ -130,6 +140,13 @@ public class UIManager : MonoBehaviour
         SetPanelVisible();
     }
 
+    public void OpenDeathPanel()
+    {
+        GameManager.GamePaused = true;
+        ActivePanel = PanelType.DeathPanel;
+        SetPanelVisible();
+    }
+
     public void CloseAllPanels()
     {
         GameManager.GamePaused = false;
@@ -140,6 +157,7 @@ public class UIManager : MonoBehaviour
 
     private void SetPanelVisible()
     {
+        _deathPanel.SetActive(false);
         _mainPanel.SetActive(false);
         _optionsPanel.SetActive(false);
         _mainMenuPanel.SetActive(false);
@@ -162,6 +180,9 @@ public class UIManager : MonoBehaviour
                 break;
             case PanelType.HudPanel:
                 _hudPanel.SetActive(true);
+                break;
+            case PanelType.DeathPanel:
+                _deathPanel.SetActive(true);
                 break;
         }
 
