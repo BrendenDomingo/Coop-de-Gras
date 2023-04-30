@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Pick up
   - Projectile
+  - UI_Navigation
   layers:
   - Default
   - TransparentFX

@@ -21,10 +21,10 @@ MonoBehaviour:
   UseSliderSprites: 0
   HeaderFont: {fileID: 11400000, guid: c3db287f3d1b76c4792c8f99e725aacb, type: 2}
   BodyFont: {fileID: 11400000, guid: 84cac6015c55183489e3b603ecfe09d4, type: 2}
-  NormalUIColor: {r: 0.6698113, g: 0.6295523, b: 0, a: 1}
-  HighlightedUIColor: {r: 0.7830189, g: 0.7372283, b: 0, a: 1}
+  NormalUIColor: {r: 0.7924528, g: 0.74611056, b: 0, a: 1}
+  HighlightedUIColor: {r: 0.75066537, g: 0.8509804, b: 0.35686275, a: 1}
   PressedUIColor: {r: 0.5283019, g: 0.49740705, b: 0, a: 1}
-  SelectedUIColor: {r: 0.7843138, g: 0.7372549, b: 0, a: 1}
+  SelectedUIColor: {r: 0.3945677, g: 0.8666667, b: 0, a: 1}
   DisabledUIColor: {r: 0.5294118, g: 0.49803925, b: 0.24705882, a: 1}
   FillUIColor: {r: 0.7445265, g: 0.8798378, b: 0.9339623, a: 1}
   EmptyUIColor: {r: 0.28235295, g: 0.3019608, b: 0.30980393, a: 1}
