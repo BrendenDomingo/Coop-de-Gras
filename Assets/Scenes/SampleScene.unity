@@ -2681,7 +2681,7 @@ Transform:
   - {fileID: 1749373343}
   - {fileID: 1898278768}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -9912,7 +9912,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8240949891286485261, guid: 1afbc516fa2b4e940b2c344fda10a92e, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8240949891286485261, guid: 1afbc516fa2b4e940b2c344fda10a92e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9957,6 +9957,14 @@ PrefabInstance:
     - target: {fileID: 8240949891286485262, guid: 1afbc516fa2b4e940b2c344fda10a92e, type: 3}
       propertyPath: m_Name
       value: Box Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 8240949891286485262, guid: 1afbc516fa2b4e940b2c344fda10a92e, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8240949891286485262, guid: 1afbc516fa2b4e940b2c344fda10a92e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1afbc516fa2b4e940b2c344fda10a92e, type: 3}
@@ -10261,9 +10269,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8559576539949273510, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
     - target: {fileID: 8559576539949273515, guid: c74c8291adbd164418e0e1974342d868, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8559576539949273515, guid: c74c8291adbd164418e0e1974342d868, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10306,6 +10318,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 156659916604850361}
@@ -10314,9 +10330,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4296908653564115269, guid: 7eb5034371d668a4c9861c9f1374bfe4, type: 3}
     - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+      propertyPath: coinSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+      propertyPath: coinPrefab
+      value: 
+      objectReference: {fileID: 4296908653564115269, guid: 7eb5034371d668a4c9861c9f1374bfe4, type: 3}
+    - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+      propertyPath: coinsToDrop
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 156659916604850356}
+    - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 131840
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+      propertyPath: environmentLayer.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c74c8291adbd164418e0e1974342d868, type: 3}
 --- !u!1001 &3188479506492677884
@@ -10335,12 +10371,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4296908653564115269, guid: 7eb5034371d668a4c9861c9f1374bfe4, type: 3}
     - target: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+      propertyPath: coinSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+      propertyPath: coinPrefab
+      value: 
+      objectReference: {fileID: 4296908653564115269, guid: 7eb5034371d668a4c9861c9f1374bfe4, type: 3}
+    - target: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+      propertyPath: coinsToDrop
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 156659916604850356}
+    - target: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 131840
+      objectReference: {fileID: 0}
     - target: {fileID: 7599766391705228423, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
       propertyPath: m_Name
       value: Basic Flying Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599766391705228423, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+      propertyPath: m_Layer
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 7599766391705228424, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
       propertyPath: m_RootOrder
