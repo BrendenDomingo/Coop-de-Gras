@@ -71,6 +71,16 @@ public class Enemy2D : MonoBehaviour
             Physics2D.IgnoreLayerCollision ( LayerMask.NameToLayer ( "enemy" ), LayerMask.NameToLayer ( "Coins" ), true );
         }
 
+        // Record death 
+        try 
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().EnemyKilled();
+        }
+        catch
+        {
+            Debug.LogError("Enemy2D.cs: GameManager not found to record enemy death!");
+        }
+        
         Destroy ( gameObject );
     }
 }
