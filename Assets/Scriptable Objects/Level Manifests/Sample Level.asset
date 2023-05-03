@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9398aad506157e4fa95a3c412ad6ca1, type: 3}
   m_Name: Sample Level
   m_EditorClassIdentifier: 
+  Waves:
+  - EnemySpawns:
+    - x: 8.4
+      y: -3.5
+      enemyPrefab: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+    - x: 6.4
+      y: -3.5
+      enemyPrefab: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+  - EnemySpawns:
+    - x: 8.4
+      y: -3.5
+      enemyPrefab: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+    - x: 8.5
+      y: -1.5
+      enemyPrefab: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
   LevelNumber: 1
   SceneName: SampleScene
-  FinalWave: 2
