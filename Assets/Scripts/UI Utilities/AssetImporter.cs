@@ -12,7 +12,7 @@ public class AssetImporter : MonoBehaviour
     {
         foreach (GameObject gameObject in _spriteReferences)
         {
-            if (gameObject.name.ToLower().Contains("mainmenubackground"))
+            if (gameObject.name.ToLower().Contains("background"))
             {
                 HandleBackground(gameObject);
                 continue;
@@ -44,8 +44,16 @@ public class AssetImporter : MonoBehaviour
     private void HandleBackground(GameObject gameObject)
     {
         Image image = gameObject.GetComponent<Image>();
-        image.sprite = _assetController.MainMenuBackgroundSprite;
-        image.enabled = true;
+
+        if (gameObject.name.ToLower().Contains("mainmenu"))
+        {
+            image.sprite = _assetController.MainMenuBackgroundSprite;
+            image.enabled = true;
+        }
+        else if (gameObject.name.ToLower().Contains("inventory"))
+        {
+            image.color = new Color(_assetController.EmptyUIColor.r, _assetController.EmptyUIColor.g, _assetController.EmptyUIColor.b, 0.5f);
+        }
     }
 
     private void HandleSlider(Slider component)

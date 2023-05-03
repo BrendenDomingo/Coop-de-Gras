@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
@@ -11,16 +12,8 @@ public class UIManager : MonoBehaviour
         MainPanel,
         OptionsPanel,
         MainMenuPanel,
-        QuitGamePanel
-    }
-
-    public enum InputDirectionSelected
-    {
-        Left,
-        Right,
-        Up,
-        Down,
-        None
+        QuitGamePanel,
+        DeathPanel
     }
 
     [SerializeField] private GameObject _hudPanel;
@@ -28,14 +21,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _quitGamePanel;
+    [SerializeField] private GameObject _deathPanel;
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _powerSlider;
     [SerializeField] private TextMeshProUGUI _goldValue;
+    [SerializeField] private TextMeshProUGUI _killValue;
     [SerializeField] private TextMeshProUGUI _waveValue;
-    private InputDirectionSelected _inputDirection;
-    private bool _allowPanelNavigation = true;
 
     public PanelType ActivePanel { get; private set; }
 
@@ -47,6 +40,11 @@ public class UIManager : MonoBehaviour
         OpenScene(0);
     }
 
+    public void ResetCurrentScene()
+    {
+        OpenScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private void OpenScene(int scene)
     {
         // opens a scene by ID - 0 is the title menu and 1 is dev scene currently
@@ -55,6 +53,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         CloseAllPanels();
         _mainPanel.transform.Find("VersionText").GetComponent<TextMeshProUGUI>().text = Application.version;
     }
@@ -74,54 +74,18 @@ public class UIManager : MonoBehaviour
 
                 break;
             case PanelType.MainPanel:
-                if (Input.GetButtonDown("Cancel") || InputUp())
+                if (Input.GetButtonDown("Cancel"))
                 {
                     CloseAllPanels();
                     break;
                 }
-                if (InputLeft())
-                {
-                    OpenOptionsPanel();
-                    break;
-                }
-                if (InputRight())
-                {
-                    OpenMainMenuPanel();
-                    break;
-                }
-                if (InputDown())
-                {
-                    OpenQuitGamePanel();
-                    break;
-                }
                 break;
             case PanelType.OptionsPanel:
-                if (Input.GetButtonDown("Cancel") || InputRight())
-                {
-                    OpenMainPanel();
-                    break;
-                }
-                break;
             case PanelType.MainMenuPanel:
-                if (Input.GetButtonDown("Cancel") || InputLeft())
-                {
-                    OpenMainPanel();
-                    break;
-                }
-                if (InputRight())
-                {
-                    OpenMainMenuScene();
-                }
-                break;
             case PanelType.QuitGamePanel:
-                if (Input.GetButtonDown("Cancel") || InputLeft())
+                if (Input.GetButtonDown("Cancel"))
                 {
                     OpenMainPanel();
-                    break;
-                }
-                if (InputRight())
-                {
-                    QuitApplication();
                 }
                 break;
         }
@@ -135,11 +99,12 @@ public class UIManager : MonoBehaviour
         _powerSlider.value = _playerController.Power / _playerController.MaxPower;
         _goldValue.text = _playerController.Gold.ToString();
         _waveValue.text = _gameManager.CurrentWave.ToString() + " / " + _gameManager.FinalWave.ToString();
+        _killValue.text = _gameManager.KillCount.ToString();
     }
 
     #endregion
 
-    #region OPEN PANEL FUCNTIONS
+    #region NAVIGATION FUCNTIONS
 
     public void OpenOptionsPanel()
     {
@@ -175,6 +140,13 @@ public class UIManager : MonoBehaviour
         SetPanelVisible();
     }
 
+    public void OpenDeathPanel()
+    {
+        GameManager.GamePaused = true;
+        ActivePanel = PanelType.DeathPanel;
+        SetPanelVisible();
+    }
+
     public void CloseAllPanels()
     {
         GameManager.GamePaused = false;
@@ -185,7 +157,7 @@ public class UIManager : MonoBehaviour
 
     private void SetPanelVisible()
     {
-        _allowPanelNavigation = false;
+        _deathPanel.SetActive(false);
         _mainPanel.SetActive(false);
         _optionsPanel.SetActive(false);
         _mainMenuPanel.SetActive(false);
@@ -209,73 +181,25 @@ public class UIManager : MonoBehaviour
             case PanelType.HudPanel:
                 _hudPanel.SetActive(true);
                 break;
+            case PanelType.DeathPanel:
+                _deathPanel.SetActive(true);
+                break;
         }
+
+        SelectUIObject();
     }
 
-    #endregion
-
-    #region INPUT DETECTION FUNCTIONS
-
-    private InputDirectionSelected GetInputDirection()
+    private void SelectUIObject()
     {
-        float moveX = Input.GetAxis("Horizontal");
-
-        moveX = moveX < 0.3f && moveX > 0f ? 0f : moveX;
-        moveX = moveX > -0.3f && moveX < 0f ? 0f : moveX;
-
-        float moveY = Input.GetAxis("Vertical");
-
-        moveY = moveY < 0.3f && moveY > 0f ? 0f : moveY;
-        moveY = moveY > -0.3f && moveY < 0f ? 0f : moveY;
-
-        if (moveX > 0.3f)
+        GameObject[] uiFirstSelectable = GameObject.FindGameObjectsWithTag("UI_Navigation");
+        foreach (GameObject uiObject in uiFirstSelectable)
         {
-            return InputDirectionSelected.Right;
+            if (uiObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(uiObject);
+                break;
+            }
         }
-        if (moveX < -0.3f)
-        {
-            return InputDirectionSelected.Left;
-        }
-
-        if (moveY > 0.3f)
-        {
-            return InputDirectionSelected.Up;
-        }
-        if (moveY < -0.3f)
-        {
-            return InputDirectionSelected.Down;
-        }
-
-        _allowPanelNavigation = true;
-        return InputDirectionSelected.None;
-    }
-
-    private bool InputRight()
-    {
-        _inputDirection = GetInputDirection();
-        bool isInputRight = _inputDirection == InputDirectionSelected.Right && _allowPanelNavigation;
-        return isInputRight;
-    }
-
-    private bool InputLeft()
-    {
-        _inputDirection = GetInputDirection();
-        bool isInputLeft = _inputDirection == InputDirectionSelected.Left && _allowPanelNavigation;
-        return isInputLeft;
-    }
-
-    private bool InputUp()
-    {
-        _inputDirection = GetInputDirection();
-        bool isInputUp = _inputDirection == InputDirectionSelected.Up && _allowPanelNavigation;
-        return isInputUp;
-    }
-
-    private bool InputDown()
-    {
-        _inputDirection = GetInputDirection();
-        bool isInputDown = _inputDirection == InputDirectionSelected.Down && _allowPanelNavigation;
-        return isInputDown;
     }
 
     #endregion

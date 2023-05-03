@@ -17,14 +17,11 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rigidBody;
     private bool _canJump = true;
-    private int _currentWave;
-    private int _finalWave;
 
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         Items = new List<GameObject>();
-        UpdateGameManagerProperties();
     }
 
     private void Update()
@@ -48,11 +45,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        UpdateGameManagerProperties();
-    }
-
     private void Jump()
     {
         _rigidBody.AddForce(new Vector2(0f, _jumpForce), ForceMode2D.Impulse);
@@ -73,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
         if (Health <= 0)
         {
-            GameManager.EndGame();
+            GameManager.EndGameDefeat();
         }
     }
 
@@ -82,11 +74,5 @@ public class PlayerController : MonoBehaviour
         gold = Mathf.RoundToInt(Mathf.Clamp((float)gold, 1f, 1000000f));
         // Prevent accidental negatives and insanely large values (>1Mm)
         Gold += gold;
-    }
-
-    private void UpdateGameManagerProperties()
-    {
-        _finalWave = GameManager.FinalWave;
-        _currentWave = GameManager.CurrentWave;
     }
 }

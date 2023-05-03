@@ -42,6 +42,17 @@ public class Enemy2D : MonoBehaviour
         {
             Instantiate( itemDrop, transform.position, transform.rotation );
         }
+
+        // Record death 
+        try 
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().EnemyKilled();
+        }
+        catch
+        {
+            Debug.LogError("Enemy2D.cs: GameManager not found to record enemy death!");
+        }
+        
         Destroy ( gameObject );
     }
 }
