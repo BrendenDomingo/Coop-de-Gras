@@ -12,19 +12,16 @@ public class LevelManifest : ScriptableObject
     public string SceneName = "";
     public int FinalWave { get; private set; }
 
-    void Start()
+    public WaveManifest GetWaveManifest(int waveIndex)
     {
         SceneIndex = SceneManager.GetSceneByName(SceneName).buildIndex;
         FinalWave = Waves.Count;
-    }
 
-    public WaveManifest GetWaveManifest(int waveIndex)
-    {
-        if (waveIndex < 1 || waveIndex > FinalWave)
+        if (waveIndex < 1 || waveIndex > Waves.Count)
         {
             throw new System.ArgumentOutOfRangeException("Invalid wave index");
         }
 
-        return Waves[waveIndex];
+        return Waves[waveIndex - 1];
     }
 }

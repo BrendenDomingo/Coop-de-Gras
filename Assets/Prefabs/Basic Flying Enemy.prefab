@@ -105,6 +105,12 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   player: {fileID: 0}
   itemDrop: {fileID: 8850943940915358578, guid: fc827ea775d3a754586df172c990967d, type: 3}
+  coinsToDrop: 7
+  coinSpeed: 1
+  coinPrefab: {fileID: 4296908653564115269, guid: 7eb5034371d668a4c9861c9f1374bfe4, type: 3}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   isAttacking: 0
   projectilePrefab: {fileID: 6428357001153962653, guid: 16699464a5229834b9d259cf3b7bad8f, type: 3}
 --- !u!61 &8343158837740761133

@@ -69,10 +69,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PickupGold(int gold = 1)
+    public void PickupGold(uint gold = 1)
     {
-        gold = Mathf.RoundToInt(Mathf.Clamp((float)gold, 1f, 1000000f));
-        // Prevent accidental negatives and insanely large values (>1Mm)
-        Gold += gold;
+        Gold += (int)gold;
     }
 }

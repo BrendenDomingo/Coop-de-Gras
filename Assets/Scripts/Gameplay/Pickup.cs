@@ -6,12 +6,9 @@ public class Pickup : MonoBehaviour
     {
         if (collision.gameObject.CompareTag ( "Player" ))
         {
-            PlayerController player = collision.gameObject.GetComponent<PlayerController> ( );
-            if (player != null)
-            {
-                player.PickupGold ( );
-            }
-            Destroy ( gameObject );
+            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
+            collision.gameObject.GetComponent<PlayerController>().PickupGold();
+            Destroy(gameObject);
         }
     }
 }

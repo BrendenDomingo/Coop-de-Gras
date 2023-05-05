@@ -24,7 +24,17 @@ MonoBehaviour:
     - x: 8.4
       y: -3.5
       enemyPrefab: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
+    - x: 7.5
+      y: -1.5
+      enemyPrefab: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+  - EnemySpawns:
+    - x: 8.4
+      y: -3.5
+      enemyPrefab: {fileID: 8559576539949273517, guid: c74c8291adbd164418e0e1974342d868, type: 3}
     - x: 8.5
+      y: -1.5
+      enemyPrefab: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+    - x: 7.5
       y: -1.5
       enemyPrefab: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
   LevelNumber: 1
