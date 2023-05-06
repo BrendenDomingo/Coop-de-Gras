@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float Health = 100f;
     public float MaxHealth = 100f;
     public int Gold = 0;
+    public int Eggs = 0;
     public float Power = 100f;
     public float MaxPower = 100f;
     // eventually make this a custom list type that accepts "item" prefabs which contains images and item stats
@@ -69,8 +70,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PickupGold(uint gold = 1)
+    public void Pickup(PickupType type, object value = null)
     {
-        Gold += (int)gold;
+        switch (type)
+        {
+            case PickupType.Gold:
+                Gold += (int?)value ?? 1;
+                break;
+            case PickupType.Egg:
+                Eggs += (int?)value ?? 1;
+                break;
+            case PickupType.Item:
+                throw new System.NotSupportedException("Item pickups not implemented");
+        }
     }
 }

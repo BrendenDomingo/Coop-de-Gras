@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider _powerSlider;
     [SerializeField] private TextMeshProUGUI _goldValue;
     [SerializeField] private TextMeshProUGUI _killValue;
+    [SerializeField] private TextMeshProUGUI _eggValue;
     [SerializeField] private TextMeshProUGUI _waveValue;
     [SerializeField] private TextMeshProUGUI _gameInstructionText;
     [SerializeField] private TextMeshProUGUI _gameInstructionTitle;
@@ -108,6 +109,7 @@ public class UIManager : MonoBehaviour
         _goldValue.text = PlayerController.Gold.ToString();
         _waveValue.text = _gameManager.CurrentWave.ToString() + " / " + _gameManager.FinalWave.ToString();
         _killValue.text = _gameManager.KillCount.ToString();
+        _eggValue.text = PlayerController.Eggs.ToString();
     }
 
     #endregion
