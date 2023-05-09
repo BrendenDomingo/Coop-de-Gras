@@ -10,6 +10,8 @@ TagManager:
   - Projectile
   - UI_Navigation
   - GameManager
+  - UI_Manager
+  - GameInstructionText
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - UI Top
   - 
   - 
-  - Coins
+  - Items
   - ground
   - 
   - 

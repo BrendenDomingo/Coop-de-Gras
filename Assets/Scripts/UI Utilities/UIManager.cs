@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,20 +17,22 @@ public class UIManager : MonoBehaviour
         DeathPanel
     }
 
+    public PlayerController PlayerController;
     [SerializeField] private GameObject _hudPanel;
     [SerializeField] private GameObject _mainPanel;
     [SerializeField] private GameObject _optionsPanel;
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _quitGamePanel;
     [SerializeField] private GameObject _deathPanel;
-    [SerializeField] private PlayerController _playerController;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _powerSlider;
     [SerializeField] private TextMeshProUGUI _goldValue;
     [SerializeField] private TextMeshProUGUI _killValue;
+    [SerializeField] private TextMeshProUGUI _eggValue;
     [SerializeField] private TextMeshProUGUI _waveValue;
-
+    [SerializeField] private TextMeshProUGUI _gameInstructionText;
+    [SerializeField] private TextMeshProUGUI _gameInstructionTitle;
     public PanelType ActivePanel { get; private set; }
 
     public void OpenMainMenuScene()
@@ -66,6 +69,12 @@ public class UIManager : MonoBehaviour
             case PanelType.HudPanel:
                 if (Input.GetButtonDown("Cancel"))
                 {
+                    if (GameManager.Victory)
+                    {
+                        OpenMainMenuScene();
+                        break;
+                    }
+
                     OpenMainPanel();
                     break;
                 }
@@ -95,11 +104,12 @@ public class UIManager : MonoBehaviour
 
     private void UpdateHUDUIComponents()
     {
-        _healthSlider.value = _playerController.Health / _playerController.MaxHealth;
-        _powerSlider.value = _playerController.Power / _playerController.MaxPower;
-        _goldValue.text = _playerController.Gold.ToString();
+        _healthSlider.value = PlayerController.Health / PlayerController.MaxHealth;
+        _powerSlider.value = PlayerController.Power / PlayerController.MaxPower;
+        _goldValue.text = PlayerController.Gold.ToString();
         _waveValue.text = _gameManager.CurrentWave.ToString() + " / " + _gameManager.FinalWave.ToString();
         _killValue.text = _gameManager.KillCount.ToString();
+        _eggValue.text = PlayerController.Eggs.ToString();
     }
 
     #endregion
@@ -147,13 +157,48 @@ public class UIManager : MonoBehaviour
         SetPanelVisible();
     }
 
+    public void SetGameInstruction(string title, string text, int duration, bool isVictoryInstruction = false)
+    {
+        _gameInstructionText.text = text;
+        _gameInstructionTitle.text = title;
+        if (duration > 0)
+        {
+            StartCoroutine(GameInstructionFade(text, duration, isVictoryInstruction));
+        }
+    }
+
+    IEnumerator GameInstructionFade(string text, int duration, bool isVictoryInstruction = false)
+    {
+        int gameInstructionTimeCounter = 0;
+        if (isVictoryInstruction)
+        {
+            while (gameInstructionTimeCounter < duration)
+            {
+                _gameInstructionText.text = text.Replace("|", (duration - gameInstructionTimeCounter).ToString());
+                gameInstructionTimeCounter++;
+                yield return new WaitForSeconds(1f);
+            }
+        }
+        else
+        {
+            yield return new WaitForSeconds((float)duration);
+        }
+        
+        _gameInstructionText.text = string.Empty;
+        _gameInstructionTitle.text = string.Empty;
+
+        if (isVictoryInstruction)
+        {
+            OpenMainMenuScene();
+        }
+    }
+
     public void CloseAllPanels()
     {
         GameManager.GamePaused = false;
         ActivePanel = PanelType.HudPanel;
         SetPanelVisible();
     }
-
 
     private void SetPanelVisible()
     {
