@@ -3,7 +3,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-   public GameManager GameManager;
+    public GameManager GameManager;
+    public UIManager UIManager;
+
+    public KeyCode[] interactionKeys = { KeyCode.N, KeyCode.E };
+
+    private bool canInteract = false;
+
     public float Health = 100f;
     public float MaxHealth = 100f;
     public int Gold = 0;
@@ -19,10 +25,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private bool _canJump = true;
 
-    private void Awake()
+    private void Start ( )
     {
-        _rigidBody = GetComponent<Rigidbody2D>();
-        Items = new List<GameObject>();
+        _rigidBody = GetComponent<Rigidbody2D> ( );
+        Items = new List<GameObject> ( );
     }
 
     private void Update()
@@ -82,6 +88,41 @@ public class PlayerController : MonoBehaviour
                 break;
             case PickupType.Item:
                 throw new System.NotSupportedException("Item pickups not implemented");
+        }
+    }
+
+    private void OnTriggerStay2D ( Collider2D other )
+    {
+        if (other.CompareTag ( "Shop" ))
+        {
+            canInteract = true;
+        }
+    }
+
+    private void OnTriggerExit2D ( Collider2D other )
+    {
+        if (other.CompareTag ( "Shop" ))
+        {
+            canInteract = false;
+        }
+    }
+
+    private void OnGUI ( )
+    {
+        if (canInteract)
+        {
+            GUI.Label ( new Rect ( Screen.width / 2 - 100, Screen.height / 2 - 30, 200, 50 ), "Space: Next Wave  E: Shop" );
+            foreach (KeyCode key in interactionKeys)
+            {
+                if (Input.GetKeyDown ( key ) && key == KeyCode.N)
+                {
+                    GameManager.NextWave();
+                }
+                if (Input.GetKeyDown ( key ) && key == KeyCode.E)
+                {
+                    //UIManager.OpenShopPanel();
+                }
+            }
         }
     }
 }

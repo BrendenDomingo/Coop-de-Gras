@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager;
     public LevelManifest LevelManifest;
     public PlayerController PlayerPrefab;
+    public GameObject Shop;
+    private GameObject ShopInstance;
     public float PlayerSpawnX = 0f;
     public float PlayerSpawnY = 0f;
     public int FinalWave { get; private set; }
@@ -74,7 +76,10 @@ public class GameManager : MonoBehaviour
         _gameInProgress = false;
         // TODO add handling for shop here which will call NextWave after done shopping 
         //------------TEMP CODE
+        Vector3 position = new Vector3 ( PlayerSpawnX, PlayerSpawnY, 0f );
+        ShopInstance = Instantiate(Shop, position, Quaternion.identity );
         StartCoroutine(NextWaveDelay());
+        
         //------------TEMP CODE
         //NextWave();
     }
@@ -91,7 +96,8 @@ public class GameManager : MonoBehaviour
         }
         
         yield return new WaitForSeconds(5f);
-        NextWave();
+        Destroy ( ShopInstance );
+        NextWave ();
     }
 
     public void NextWave()
