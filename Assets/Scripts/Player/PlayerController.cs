@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
                 }
                 if (Input.GetKeyDown ( key ) && key == KeyCode.E)
                 {
-                    //UIManager.OpenShopPanel();
+                    UIManager.OpenShopPanel();
                 }
             }
         }
