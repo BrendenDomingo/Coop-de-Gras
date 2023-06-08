@@ -157,6 +157,11 @@ public class UIManager : MonoBehaviour
         SetPanelVisible();
     }
 
+    public void OpenShopPanel()
+    {
+        
+    }
+
     public void SetGameInstruction(string title, string text, int duration, bool isVictoryInstruction = false)
     {
         _gameInstructionText.text = text;
