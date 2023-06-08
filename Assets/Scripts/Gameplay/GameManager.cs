@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public int CurrentWave { get; private set; } = 0;
     public int KillCount { get; private set; } = 0;
     public static bool GamePaused = false;
+    public bool ShopAvailable = false;
     private WaveManifest _currentWave;
     private int _enemiesRemaining = 0;
     private static bool _gameInProgress = false;
@@ -74,14 +75,16 @@ public class GameManager : MonoBehaviour
     public void WaveComplete()
     {
         _gameInProgress = false;
-        // TODO add handling for shop here which will call NextWave after done shopping 
-        //------------TEMP CODE
+
         Vector3 position = new Vector3 ( PlayerSpawnX, PlayerSpawnY, 0f );
         ShopInstance = Instantiate(Shop, position, Quaternion.identity );
+        ShopAvailable = true;
+    }
+
+    public void StartNextWave()
+    {
+        ShopAvailable = false;
         StartCoroutine(NextWaveDelay());
-        
-        //------------TEMP CODE
-        //NextWave();
     }
 
     IEnumerator NextWaveDelay()

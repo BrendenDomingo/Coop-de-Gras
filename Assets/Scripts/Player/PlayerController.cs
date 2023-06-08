@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     public KeyCode[] interactionKeys = { KeyCode.N, KeyCode.E };
 
     private bool canInteract = false;
-
     public float Health = 100f;
     public float MaxHealth = 100f;
     public int Gold = 0;
@@ -29,6 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody2D> ( );
         Items = new List<GameObject> ( );
+        UIManager = GameObject.FindGameObjectWithTag("UI_Manager").GetComponent<UIManager>();
     }
 
     private void Update()
@@ -49,6 +49,21 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && _canJump)
         {
             Jump();
+        }
+
+        if (canInteract)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                UIManager.OpenShopPanel();
+                canInteract = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                GameManager.StartNextWave();
+                canInteract = false;
+            }
         }
     }
 
@@ -93,36 +108,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D ( Collider2D other )
     {
-        if (other.CompareTag ( "Shop" ))
+        if (GameManager.ShopAvailable && other.CompareTag ( "Shop" ))
         {
             canInteract = true;
+            UIManager.SetGameInstruction("Shopping Carriage", "Open Shop: E \n Start Next Wave: N", 0);
         }
     }
 
     private void OnTriggerExit2D ( Collider2D other )
     {
-        if (other.CompareTag ( "Shop" ))
+        if (GameManager.ShopAvailable && other.CompareTag ( "Shop" ))
         {
             canInteract = false;
-        }
-    }
-
-    private void OnGUI ( )
-    {
-        if (canInteract)
-        {
-            GUI.Label ( new Rect ( Screen.width / 2 - 100, Screen.height / 2 - 30, 200, 50 ), "Space: Next Wave  E: Shop" );
-            foreach (KeyCode key in interactionKeys)
-            {
-                if (Input.GetKeyDown ( key ) && key == KeyCode.N)
-                {
-                    GameManager.NextWave();
-                }
-                if (Input.GetKeyDown ( key ) && key == KeyCode.E)
-                {
-                    UIManager.OpenShopPanel();
-                }
-            }
+            UIManager.SetGameInstruction(string.Empty, string.Empty, 0);
         }
     }
 }
