@@ -102,6 +102,8 @@ MonoBehaviour:
   attackRate: 1
   maxDistance: 3
   damage: 10
+  radius: 1
+  rotationSpeed: 100
 --- !u!58 &6492700739426168170
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -223,6 +225,7 @@ MonoBehaviour:
   Health: 100
   MaxHealth: 100
   Gold: 0
+  Eggs: 0
   Power: 100
   MaxPower: 100
   _moveSpeed: 5
@@ -376,6 +379,8 @@ MonoBehaviour:
   attackRate: 1
   maxDistance: 3
   damage: 10
+  radius: 1
+  rotationSpeed: 100
 --- !u!58 &6492700740209961848
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -8,24 +8,40 @@ public class BoomerangAttack : MonoBehaviour
     public float maxDistance;
     public float damage;
     private float nextAttackTime;
+    public bool isAttacking = false;
+
+    public float radius;
+    public float rotationSpeed;
 
     private void Update()
     {
         if (GameManager.GamePaused) return;
-        
+
+        Vector3 cursorPos = Camera.main.ScreenToWorldPoint ( Input.mousePosition );
+        cursorPos.z = 0;
+
+        Vector3 direction = cursorPos - transform.position;
+
+        if (direction.magnitude > maxDistance)
+        {
+            direction = direction.normalized * maxDistance;
+        }
+
+        Vector3 directionClamped = Vector3.ClampMagnitude ( direction, 1f );
+
+        Quaternion targetRotation = Quaternion.LookRotation ( Vector3.forward, direction ) * Quaternion.Euler ( 0, 0, 90 );
+        transform.rotation = targetRotation;
+
+
+        if (!isAttacking)
+        {
+            transform.position = transform.parent.position + directionClamped.normalized;
+        }
+
         if (Input.GetMouseButtonDown(0) && Time.time >= nextAttackTime)
         {
+            isAttacking = true;
             nextAttackTime = (Time.time + 1f) / attackRate;
-
-            Vector3 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            cursorPos.z = 0;
-
-            Vector3 direction = cursorPos - transform.position;
-
-            if (direction.magnitude > maxDistance)
-            {
-                direction = direction.normalized * maxDistance;
-            }
 
             StartCoroutine(Attack(direction));
         }
@@ -51,6 +67,8 @@ public class BoomerangAttack : MonoBehaviour
             traveledDistance += speed * Time.deltaTime;
             yield return null;
         }
+
+        isAttacking = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
