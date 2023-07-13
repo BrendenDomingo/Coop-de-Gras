@@ -6,8 +6,6 @@ public class PlayerController : MonoBehaviour
     public GameManager GameManager;
     public UIManager UIManager;
 
-    public KeyCode[] interactionKeys = { KeyCode.N, KeyCode.E };
-
     private bool canInteract = false;
     public float Health = 100f;
     public float MaxHealth = 100f;
