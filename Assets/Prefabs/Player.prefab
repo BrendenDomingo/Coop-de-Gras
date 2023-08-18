@@ -98,11 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558f131299df76848b8c3661bc8922e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  attackRate: 1
-  maxDistance: 3
+  speed: 10
+  attackRate: 0.8
+  maxDistance: 4
   damage: 10
-  radius: 1
   rotationSpeed: 100
 --- !u!58 &6492700739426168170
 CircleCollider2D:
@@ -375,11 +374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558f131299df76848b8c3661bc8922e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
-  attackRate: 1
-  maxDistance: 3
+  speed: 10
+  attackRate: 0.7
+  maxDistance: 4
   damage: 10
-  radius: 1
   rotationSpeed: 100
 --- !u!58 &6492700740209961848
 CircleCollider2D:

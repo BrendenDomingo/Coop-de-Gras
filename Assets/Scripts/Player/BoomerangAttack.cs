@@ -3,21 +3,25 @@ using System.Collections;
 
 public class BoomerangAttack : MonoBehaviour
 {
+    [Header("Attack Settings")]
     public float speed;
     public float attackRate;
     public float maxDistance;
     public float damage;
-    private float nextAttackTime;
-    public bool isAttacking = false;
 
-    public float radius;
+    [Header("Rotation Settings")]
     public float rotationSpeed;
+
+    private float nextAttackTime;
+    private float traveledDistance;
+    private bool isAttacking = false;
+    private Vector3 targetPosition;
 
     private void Update()
     {
-        if (GameManager.GamePaused) return;
+        if (GameManager.GamePaused || isAttacking) return;
 
-        Vector3 cursorPos = Camera.main.ScreenToWorldPoint ( Input.mousePosition );
+        Vector3 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         cursorPos.z = 0;
 
         Vector3 direction = cursorPos - transform.position;
@@ -26,22 +30,19 @@ public class BoomerangAttack : MonoBehaviour
         {
             direction = direction.normalized * maxDistance;
         }
+        Vector3 directionClamped = Vector3.ClampMagnitude(direction, 1f);
 
-        Vector3 directionClamped = Vector3.ClampMagnitude ( direction, 1f );
-
-        Quaternion targetRotation = Quaternion.LookRotation ( Vector3.forward, direction ) * Quaternion.Euler ( 0, 0, 90 );
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction) * Quaternion.Euler(0, 0, 90);
         transform.rotation = targetRotation;
 
+        targetPosition = transform.parent.position + directionClamped.normalized;
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        if (!isAttacking)
-        {
-            transform.position = transform.parent.position + directionClamped.normalized;
-        }
 
         if (Input.GetMouseButtonDown(0) && Time.time >= nextAttackTime)
         {
             isAttacking = true;
-            nextAttackTime = (Time.time + 1f) / attackRate;
+            nextAttackTime = Time.time + 1f / attackRate;
 
             StartCoroutine(Attack(direction));
         }
@@ -49,21 +50,13 @@ public class BoomerangAttack : MonoBehaviour
 
     private IEnumerator Attack(Vector3 direction)
     {
-        float traveledDistance = 0f;
-
-        while (traveledDistance < direction.magnitude)
-        {
-            transform.position += direction.normalized * speed * Time.deltaTime;
-            traveledDistance += speed * Time.deltaTime;
-            yield return null;
-        }
-
-        direction = -direction;
         traveledDistance = 0f;
+        targetPosition = transform.parent.position + direction;
+        
 
-        while (traveledDistance < direction.magnitude)
+        while (traveledDistance < maxDistance)
         {
-            transform.position += direction.normalized * speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
             traveledDistance += speed * Time.deltaTime;
             yield return null;
         }
@@ -78,13 +71,13 @@ public class BoomerangAttack : MonoBehaviour
             BasicEnemyAI enemyAI = other.gameObject.GetComponent<BasicEnemyAI>();
             if (enemyAI != null)
             {
-                enemyAI.ReceiveDamage ( damage);
+                enemyAI.ReceiveDamage(damage);
             }
 
             FlyingEnemyAI flyingEnemyAI = other.gameObject.GetComponent<FlyingEnemyAI>();
             if (flyingEnemyAI != null)
             {
-                flyingEnemyAI.ReceiveDamage ( damage);
+                flyingEnemyAI.ReceiveDamage(damage);
             }
         }
     }
