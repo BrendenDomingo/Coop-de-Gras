@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-   public GameManager GameManager;
+    public GameManager GameManager;
+    public UIManager UIManager;
+
+    private bool canInteract = false;
     public float Health = 100f;
     public float MaxHealth = 100f;
     public int Gold = 0;
@@ -19,10 +22,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private bool _canJump = true;
 
-    private void Awake()
+    private void Start ( )
     {
-        _rigidBody = GetComponent<Rigidbody2D>();
-        Items = new List<GameObject>();
+        _rigidBody = GetComponent<Rigidbody2D> ( );
+        Items = new List<GameObject> ( );
+        UIManager = GameObject.FindGameObjectWithTag("UI_Manager").GetComponent<UIManager>();
     }
 
     private void Update()
@@ -43,6 +47,21 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && _canJump)
         {
             Jump();
+        }
+
+        if (canInteract)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                UIManager.OpenShopPanel();
+                canInteract = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                GameManager.StartNextWave();
+                canInteract = false;
+            }
         }
     }
 
@@ -82,6 +101,24 @@ public class PlayerController : MonoBehaviour
                 break;
             case PickupType.Item:
                 throw new System.NotSupportedException("Item pickups not implemented");
+        }
+    }
+
+    private void OnTriggerStay2D ( Collider2D other )
+    {
+        if (GameManager.ShopAvailable && other.CompareTag ( "Shop" ))
+        {
+            canInteract = true;
+            UIManager.SetGameInstruction("Shopping Carriage", "Open Shop: E \n Start Next Wave: N", 0);
+        }
+    }
+
+    private void OnTriggerExit2D ( Collider2D other )
+    {
+        if (GameManager.ShopAvailable && other.CompareTag ( "Shop" ))
+        {
+            canInteract = false;
+            UIManager.SetGameInstruction(string.Empty, string.Empty, 0);
         }
     }
 }

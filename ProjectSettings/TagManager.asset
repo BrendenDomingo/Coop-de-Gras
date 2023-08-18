@@ -12,6 +12,7 @@ TagManager:
   - GameManager
   - UI_Manager
   - GameInstructionText
+  - Shop
   layers:
   - Default
   - TransparentFX

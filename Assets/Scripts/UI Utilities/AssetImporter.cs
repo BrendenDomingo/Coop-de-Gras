@@ -41,6 +41,32 @@ public class AssetImporter : MonoBehaviour
         }
     }
 
+    public void ApplyStyling(GameObject gameObject)
+    {
+        if (gameObject.name.ToLower().Contains("background"))
+            {
+                HandleBackground(gameObject);
+            }
+
+            Slider sliderComponent = gameObject.GetComponent<Slider>();
+            if (sliderComponent != null)
+            {
+                HandleSlider(sliderComponent);
+            }
+
+            Button buttonComponent = gameObject.GetComponent<Button>();
+            if (buttonComponent != null)
+            {
+                HandleButton(buttonComponent);
+            }
+
+            TextMeshProUGUI textComponent = gameObject.GetComponent<TextMeshProUGUI>();
+            if (textComponent != null)
+            {
+                HandleTextMeshProUGUI(textComponent, gameObject);
+            }
+    }
+
     private void HandleBackground(GameObject gameObject)
     {
         Image image = gameObject.GetComponent<Image>();
