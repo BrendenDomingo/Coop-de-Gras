@@ -14,7 +14,8 @@ public class UIManager : MonoBehaviour
         OptionsPanel,
         MainMenuPanel,
         QuitGamePanel,
-        DeathPanel
+        DeathPanel,
+        ShopPanel
     }
 
     public PlayerController PlayerController;
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _quitGamePanel;
     [SerializeField] private GameObject _deathPanel;
+    [SerializeField] private GameObject _shopPanel;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _powerSlider;
@@ -159,7 +161,9 @@ public class UIManager : MonoBehaviour
 
     public void OpenShopPanel()
     {
-        
+        GameManager.GamePaused = true;
+        ActivePanel = PanelType.ShopPanel;
+        SetPanelVisible();
     }
 
     public void SetGameInstruction(string title, string text, int duration, bool isVictoryInstruction = false)
@@ -213,6 +217,7 @@ public class UIManager : MonoBehaviour
         _mainMenuPanel.SetActive(false);
         _quitGamePanel.SetActive(false);
         _hudPanel.SetActive(false);
+        _shopPanel.SetActive(false);
 
         switch (ActivePanel)
         {
@@ -233,6 +238,9 @@ public class UIManager : MonoBehaviour
                 break;
             case PanelType.DeathPanel:
                 _deathPanel.SetActive(true);
+                break;
+            case PanelType.ShopPanel:
+                _shopPanel.SetActive(true);
                 break;
         }
 
