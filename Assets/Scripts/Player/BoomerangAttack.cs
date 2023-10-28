@@ -32,10 +32,13 @@ public class BoomerangAttack : MonoBehaviour
         }
         Vector3 directionClamped = Vector3.ClampMagnitude(direction, 1f);
 
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction) * Quaternion.Euler(0, 0, 90);
-        transform.rotation = targetRotation;
-
-        targetPosition = transform.parent.position + directionClamped.normalized;
+        if (transform.position == transform.parent.position)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction) * Quaternion.Euler(0, 0, 90);
+            transform.rotation = targetRotation;
+        }
+        
+        targetPosition = transform.parent.position;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
 
