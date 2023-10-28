@@ -22,6 +22,8 @@ public class Enemy2D : MonoBehaviour
     public float knockbackForce = 1.0f; // Adjust the knockback force
     public float knockbackDuration = 0.02f;
 
+    public GameObject damageParticlePrefab;
+
     private Coroutine flashCoroutine;
     private Color originalColor;
 
@@ -50,6 +52,8 @@ public class Enemy2D : MonoBehaviour
 
             flashCoroutine = StartCoroutine(FlashSprite());
             ApplyKnockback(); // Apply knockback when damaged
+
+            GameObject particleEffect = Instantiate(damageParticlePrefab, transform.position, Quaternion.identity);
         }
     }
 
