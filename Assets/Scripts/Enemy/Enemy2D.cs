@@ -17,11 +17,22 @@ public class Enemy2D : MonoBehaviour
     public Slider hpSlider;
     private float _maxHealth;
 
+    public SpriteRenderer characterSprite; // Reference to your character's SpriteRenderer component
+
+    public float knockbackForce = 1.0f; // Adjust the knockback force
+    public float knockbackDuration = 0.02f;
+
+    public GameObject damageParticlePrefab;
+
+    private Coroutine flashCoroutine;
+    private Color originalColor;
+
     public bool isAttacking;
 
     void Start()
     {
         _maxHealth = health;
+        originalColor = characterSprite.color;
     }
 
     public virtual void ReceiveDamage ( float damage )
@@ -32,6 +43,57 @@ public class Enemy2D : MonoBehaviour
         {
             Die ( );
         }
+        else
+        {
+            if (flashCoroutine != null)
+            {
+                StopCoroutine(flashCoroutine);
+            }
+
+            flashCoroutine = StartCoroutine(FlashSprite());
+            ApplyKnockback(); // Apply knockback when damaged
+
+            GameObject particleEffect = Instantiate(damageParticlePrefab, transform.position, Quaternion.identity);
+        }
+    }
+
+    private IEnumerator FlashSprite()
+    {
+        float flashDuration = 0.002f; // Adjust the duration of the flash
+        float flashInterval = 0.1f; // Adjust the interval of the flash
+
+        for (float timer = 0; timer < flashDuration; timer += Time.deltaTime)
+        {
+            characterSprite.color = Color.white;
+            yield return new WaitForSeconds(flashInterval);
+            characterSprite.color = originalColor;
+            yield return new WaitForSeconds(flashInterval);
+        }
+
+        characterSprite.color = originalColor;
+        flashCoroutine = null;
+    }
+
+    private void ApplyKnockback()
+    {
+        // Calculate the knockback direction 
+        Vector2 knockbackDirection = transform.right; // Apply knockback in the opposite direction of character's facing
+
+        // Apply force for knockback
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero; // Reset current velocity before applying knockback
+            rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+
+            StartCoroutine(ResetVelocity(rb, knockbackDuration));
+        }
+    }
+
+    private IEnumerator ResetVelocity(Rigidbody2D rb, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        rb.velocity = Vector2.zero; // Reset the velocity to stop the knockback effect
     }
 
     public virtual void Move ( ) { }

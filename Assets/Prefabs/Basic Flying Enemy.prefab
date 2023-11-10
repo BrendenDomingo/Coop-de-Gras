@@ -535,6 +535,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   hpSlider: {fileID: 5039608864970299690}
+  characterSprite: {fileID: 7599766391705228425}
+  knockbackForce: 1
+  knockbackDuration: 0.02
+  damageParticlePrefab: {fileID: 7464509812324540247, guid: 1dbee9d87601a3349a09e12bf4ac79e1, type: 3}
   isAttacking: 0
   projectilePrefab: {fileID: 6428357001153962653, guid: 16699464a5229834b9d259cf3b7bad8f, type: 3}
 --- !u!61 &8343158837740761133

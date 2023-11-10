@@ -418,7 +418,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.02
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -482,6 +482,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   hpSlider: {fileID: 1928909157510279896}
+  characterSprite: {fileID: 8559576539949273514}
+  knockbackForce: 10
+  knockbackDuration: 0.02
+  damageParticlePrefab: {fileID: 7464509812324540247, guid: 1dbee9d87601a3349a09e12bf4ac79e1, type: 3}
   isAttacking: 0
 --- !u!1 &8891503361122042823
 GameObject:
