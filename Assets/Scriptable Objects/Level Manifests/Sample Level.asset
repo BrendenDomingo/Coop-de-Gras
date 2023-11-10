@@ -36,6 +36,6 @@ MonoBehaviour:
       enemyPrefab: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
     - x: 7.5
       y: -1.5
-      enemyPrefab: {fileID: 7599766391705228422, guid: 6c71ee0785e0d2f419a02c73e3f22da9, type: 3}
+      enemyPrefab: {fileID: 8382529745511614237, guid: f7ab94db6ddb36c4c99faf0462103328, type: 3}
   LevelNumber: 1
   SceneName: SampleScene
