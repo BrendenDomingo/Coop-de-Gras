@@ -23,6 +23,7 @@ public class Enemy2D : MonoBehaviour
     public float knockbackDuration = 0.02f;
 
     public GameObject damageParticlePrefab;
+    private GameObject particleEffect;
 
     private Coroutine flashCoroutine;
     private Color originalColor;
@@ -42,18 +43,22 @@ public class Enemy2D : MonoBehaviour
         if (health <= 0)
         {
             Die ( );
+            
         }
         else
         {
+            particleEffect = Instantiate ( damageParticlePrefab, transform.position, Quaternion.identity );
             if (flashCoroutine != null)
             {
-                StopCoroutine(flashCoroutine);
+                
+                StopCoroutine (flashCoroutine);
             }
 
             flashCoroutine = StartCoroutine(FlashSprite());
             ApplyKnockback(); // Apply knockback when damaged
 
-            GameObject particleEffect = Instantiate(damageParticlePrefab, transform.position, Quaternion.identity);
+
+            Destroy ( particleEffect, 0.5f);
         }
     }
 
